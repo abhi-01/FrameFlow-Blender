@@ -70,13 +70,13 @@ class TEXT_PT_HELP_SETTINGS_PANEL(bpy.types.Panel):
         # row.operator("wm.url_open", text="FAQ",
         #              ).url = "https://github.com/abhi-01/FrameFlow"
         row.operator(
-            "wm.url_faq", text="FAQ \u2754").url = "https://github.com/abhi-01/FrameFlow"
+            "wm.url_faq", text="FAQ \u2754").url = "https://github.com/abhi-01/FrameFlow-Blender/blob/main/README.md"
 
         # row.operator("wm.url_open", text="Docs",
         #              ).url = "https://github.com/abhi-01/FrameFlow"
 
         row.operator(
-            "wm.url_docs", text="Docs \U0001F4C4").url = "https://github.com/abhi-01/FrameFlow"
+            "wm.url_docs", text="Docs \U0001F4C4").url = "https://github.com/abhi-01/FrameFlow-Blender/wiki"
         # # The "align=True" keeps the button intact and pretty, instead of a gap between them.
         row = layout.row(align=True)
         # row.label(text="Contact / Rate Us:")
@@ -89,7 +89,7 @@ class TEXT_PT_HELP_SETTINGS_PANEL(bpy.types.Panel):
         # The "align=True" keeps the button intact and pretty, instead of a gap between them.
         row = layout.row(align=True)
         row.operator("wm.url_contact_us", text="Contact \U0001F4E7",  # not "Contact Us", as it got hidden dur to long name
-                     ).url = "mailto:frame_flow_blender@gmail.com"
+                     ).url = "mailto:abhishek.physics90@gmail.com"
         row.operator("wm.url_about_us", text="About \u2139",  # Not "About Us", as it implies a big team.
                      ).url = "https://github.com/abhi-01/FrameFlow"
 

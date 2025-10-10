@@ -73,7 +73,7 @@ In Blender:
    - 🌲 for generators
    - ⚙️ for controls
 15. And many more to make your notes and frames expressive and fun!
-16. To edit the following frame properties,
+16. To edit the following frame properties, You do these just as you would with any regular frame node in Blender:
    
    - **Name**, **label** and **color**
    select the frame and go to the **Node** tab in the sidebar (N key) and adjust the properties under **Node** --->
@@ -83,6 +83,9 @@ In Blender:
 
    - **Font Size**
    select the frame and go to the **Node** tab in the sidebar (N key) and adjust the properties under **Properties**
+
+   - **Size**
+   select the frame and click on the boundary of the frame and drag to resize.
 
 17. Each frame creation results in a data block named **active_frame_name_USER_Data_Block**. This stores your text and formatting.
 any frame created via FrameFlow will have data block ending with **_USER_Data_Block**. You can change it if you want.

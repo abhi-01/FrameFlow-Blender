@@ -57,7 +57,7 @@ class SimpleFramePanel(bpy.types.Panel):
         layout.separator()
         row = layout.row()
         row.operator("wm.url_open", text="Help❔",
-                     ).url = "https://www.blender.org/support/"
+                     ).url = "https://github.com/abhi-01/FrameFlow-Blender/blob/main/README.md"
 
 
 # Operator to add a frame node where the mouse cursor is.
@@ -100,7 +100,7 @@ class AddFrameNodeOperator(bpy.types.Operator):
 
         # Style & text block
         frame.name = "FrameFlow Block"
-        frame.label = "Hello from FrameFlow!"
+        frame.label = "FrameFlow!"
         frame.use_custom_color = True
         frame.color = (0.144, 0.432, 1)
         tb = bpy.data.texts.new(name=f"{frame.name}_text")
