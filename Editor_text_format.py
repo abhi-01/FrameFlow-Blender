@@ -190,7 +190,7 @@ class TEXT_PT_unicode_style(bpy.types.Panel):
         layout = self.layout
         wm = context.window_manager
         mode = get_live_mode(context)
-        layout.label(text="Double click to select:")
+        layout.label(text="Click to select:")
         col = layout.column(align=True)
         b = col.operator("text.live_style", text="🅱️ Bold Live",
                          depress=(mode == 'bold'))
