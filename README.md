@@ -98,3 +98,8 @@ any frame created via FrameFlow will have data block ending with **_USER_Data_Bl
 
 21. Discord Server coming Soon!!
 
+22. For more help see these options in the text editor:
+    
+    <img width="344" height="409" alt="image" src="https://github.com/user-attachments/assets/2053e9de-8c4f-4fc2-b074-552a1eba5f64" />
+
+
