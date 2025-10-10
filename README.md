@@ -21,20 +21,11 @@
 
 1. Download the latest `.zip` file from,    
 [Gumroad](https://github.com/abhi-01/FrameFlow-Blender/releases)    
-or 
-[GitHub page](https://github.com/abhi-01/FrameFlow-Blender/releases)
+
 
 🧠 *Tip:* You can remove any previous FrameFlow version before installing a new one.
 
 **Gumroad Installtion**
-In Blender:
-   - Open **Edit → Preferences → Add-ons**
-   - Click **Install from disk**
-   - Select the downloaded `.zip`
-   - Enable **FrameFlow** from the list
-
-
-**GitHub Installation**
 In Blender:
    - Open **Edit → Preferences → Add-ons**
    - Click **Install from disk**
