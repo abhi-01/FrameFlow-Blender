@@ -99,6 +99,7 @@ class TEXT_OT_live_style(bpy.types.Operator):
     bl_idname = "text.live_style"
     bl_label = "Live Unicode Typing"
     bl_options = {'REGISTER'}
+    bl_description = "Apply Bold or Italic styles to text"
 
     style: bpy.props.EnumProperty(
         name="Style",
@@ -184,7 +185,6 @@ class TEXT_PT_unicode_style(bpy.types.Panel):
     bl_category = "Editor Ⓕ"
     bl_label = "Text Styles"
     bl_options = {'DEFAULT_CLOSED'}
-    bl_description = "Apply Bold or Italic styles to text"
 
     def draw(self, context):
         layout = self.layout
