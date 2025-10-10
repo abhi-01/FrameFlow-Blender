@@ -62,7 +62,7 @@ In Blender:
    - Select your node or nodes
    - Use the **Insert Frame ☐** button
 6. A frame will be created at the mouse cursor location.
-7. Click on the **Open Text Editor \U0001F5D2** button to open the text editor.
+7. Click on the **Open Text Editor** button to open the text editor.
 8. The editor will have a **Editor Ⓕ** tab.
 9. Use the search bar to search for emojis or unicode characters.
 10. Or manually select from the categories below.
@@ -76,9 +76,9 @@ In Blender:
 16. To edit the following frame properties,
    
    - **Name**, **label** and **color**
-   select the frame and go to the **Node** tab in the sidebar (N key) and adjust the properties under **Node**
-   The **label** will be shown at the top of the frame in the node editor.
-   The **name** is the internal name of the frame and will be shown in the outliner.
+   select the frame and go to the **Node** tab in the sidebar (N key) and adjust the properties under **Node** --->
+   The **label** will be shown at the top of the frame in the node editor.-->
+   The **name** is the internal name of the frame and will be shown in the outliner.-->
    The **color** will change the frame color.
 
    - **Font Size**
