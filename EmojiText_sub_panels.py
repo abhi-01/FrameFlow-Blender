@@ -66,7 +66,7 @@ class TEXT_PT_EMOJI_CATEGORIES(bpy.types.Panel):
     bl_category = "Editor Ⓕ"
     # Just "Categories" Not Emoji Categories, as this takes up space in the UI, keep it clean and less cluttered.
     # And default space when opened , it fits right in. NO need tp expand, keeping it minimal.
-    bl_label = "Categories"
+    bl_label = "Emoji Categories"
     bl_options = {'DEFAULT_CLOSED'}  # Start closed
     # bl_order = 2  # After Frequently Used
 
