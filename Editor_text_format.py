@@ -184,15 +184,12 @@ class TEXT_PT_unicode_style(bpy.types.Panel):
     bl_category = "Editor Ⓕ"
     bl_label = "Text Styles"
     bl_options = {'DEFAULT_CLOSED'}
+    bl_description = "Apply Bold or Italic styles to text"
 
     def draw(self, context):
         layout = self.layout
         wm = context.window_manager
         mode = get_live_mode(context)
-
-        layout.label(text="Apply Style:")
-
-        layout.separator()
         layout.label(text="Double click to select:")
         col = layout.column(align=True)
         b = col.operator("text.live_style", text="🅱️ Bold Live",

@@ -2,7 +2,7 @@ schema_version = "1.0.0"
 
 
 # Change the values according to your extension
-id = "FrameFlow-Blender"
+id = "FrameFlow-Blender-main"
 version = "1.0.0"
 name = "Frame Flow Beta"
 tagline = "Frame FLow is an addon that lets you create node frames that contain multi line text enriched with multi language support and emojis."

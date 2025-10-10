@@ -100,9 +100,9 @@ class AddFrameNodeOperator(bpy.types.Operator):
 
         # Style & text block
         frame.name = "FrameFlow Block"
-        frame.label = "Success"
+        frame.label = "Hello from FrameFlow!"
         frame.use_custom_color = True
-        frame.color = (0.2, 0.2, 1)
+        frame.color = (0.144, 0.432, 1)
         tb = bpy.data.texts.new(name=f"{frame.name}_text")
         frame.text = tb
         # Keep track of created text blocks, for future use of keeping back up feature.

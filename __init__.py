@@ -10,11 +10,11 @@ from . import Help_Settings_Panel
 import bpy
 bl_info = {
     "name": "FrameFlow",
-    "author": "Your Name",
+    "author": "Abhishek Kumar",
     "version": (1, 0),
-    "blender": (4, 0, 0),
+    "blender": (4, 3, 0),
     "location": "Node Editor > Sidebar > Node",
-    "description": "Create frame nodes with associated text blocks",
+    "description": "Advanced Node Frame Add-on for Blender",
     "category": "Node",
 }
 
