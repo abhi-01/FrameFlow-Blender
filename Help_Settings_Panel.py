@@ -70,7 +70,7 @@ class TEXT_PT_HELP_SETTINGS_PANEL(bpy.types.Panel):
         # row.operator("wm.url_open", text="FAQ",
         #              ).url = "https://github.com/abhi-01/FrameFlow"
         row.operator(
-            "wm.url_faq", text="FAQ \u2754").url = "https://github.com/abhi-01/FrameFlow-Blender/blob/main/README.md"
+            "wm.url_faq", text="FAQ \u2754").url = "https://github.com/abhi-01/FrameFlow-Blender/wiki/FAQ"
 
         # row.operator("wm.url_open", text="Docs",
         #              ).url = "https://github.com/abhi-01/FrameFlow"
@@ -91,7 +91,7 @@ class TEXT_PT_HELP_SETTINGS_PANEL(bpy.types.Panel):
         row.operator("wm.url_contact_us", text="Contact \U0001F4E7",  # not "Contact Us", as it got hidden dur to long name
                      ).url = "mailto:abhishek.physics90@gmail.com"
         row.operator("wm.url_about_us", text="About \u2139",  # Not "About Us", as it implies a big team.
-                     ).url = "https://github.com/abhi-01/FrameFlow"
+                     ).url = "https://github.com/abhi-01/FrameFlow-Blender/blob/main/README.md"
 
 
 # Update language option button
