@@ -1,23 +1,23 @@
 # FrameFlow (Beta) — Smarter Frames for Blender’s Node Editor
 
-> 🎉 **Now in Free Beta!**  
+>  **Now in Free Beta!**  
 > FrameFlow is a powerful Blender add-on that redefines node organization — add **annotated frames**, **multiline comments**, and **emoji support** to your node setups.  
 > The **stable version** will be released soon on Blender Market and Gumroad.
 
 ---
 
-## ✨ Features
+## Features
 
-- 🗂️ **Smart Node Frames** — neatly group and label nodes  
-- 🖋️ **Multiline Comments** — describe your setups clearly  
-- 😄 **Emoji & Unicode Support** — make notes expressive  
-- 🎨 **Customizable Styles** — adjust font, size, color, and padding  
-- ⚡ **Quick Workflow** — add frames instantly with shortcuts  
-- 💬 Perfect for complex node setups, tutorials, and procedural systems
+- **Smart Node Frames** — neatly group and label nodes  
+- **Multiline Comments** — describe your setups clearly  
+- **Emoji & Unicode Support** — make notes expressive  
+- **Customizable Styles** — adjust font, size, color, and padding  
+- **Quick Workflow** — add frames instantly with shortcuts  
+- Perfect for complex node setups, tutorials, and procedural systems
 
 ---
 
-## 🧩 Installation
+##  Installation
 
 1. Download the latest `.zip` file from,    
 [Gumroad](https://github.com/abhi-01/FrameFlow-Blender/releases)    
@@ -32,7 +32,7 @@ In Blender:
    - Select the downloaded `.zip`
    - Enable **FrameFlow** from the list
 
-## 🚀 Usage
+##  Usage
 
 1. Open a **Shader Node Editor** (Support for Geometry and Compositor will be updated soon!!)
 2. Press N --> 
