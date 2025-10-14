@@ -34,7 +34,11 @@ In Blender:
    - Enable **FrameFlow** from the list
 
 ##  Usage
+Watch this demo video, its less than 5 minutes long, and covers all functionality of FrameFlow, that's how simple it is to use.
 
+[Demo On YouTube](https://www.youtube.com/watch?v=7pI79bUrJZg)
+
+Or Follow these steps:
 1. Open a **Shader Node Editor** (Support for Geometry and Compositor will be updated soon!!)
 2. Press N --> 
 3. Go to the **FrameFlow** tab
