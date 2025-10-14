@@ -92,10 +92,10 @@ class AddFrameNodeOperator(bpy.types.Operator):
 
         # Style & text block
         frame.name = "FrameFlow Block"
-        frame.label = "FrameFlow!"
+        frame.label = "FrameFlow"
         frame.use_custom_color = True
         frame.color = (0.144, 0.432, 1)
-        tb = bpy.data.texts.new(name=f"{frame.name}_text")
+        tb = bpy.data.texts.new(name=f"{frame.label}_FF")
         frame.text = tb
         # Keep track of created text blocks, for future use of keeping back up feature.
         data_block_list.append(tb)
@@ -212,7 +212,11 @@ class OpenTextEditorOperator(bpy.types.Operator):
         # Setting the text block as the active text in the editor, starts here.
         material = bpy.context.object.active_material
         node_tree = material.node_tree
+        print("Inside open text editor operator, active node",
+              node_tree.nodes.active.name)
+
         active_frame = node_tree.nodes.active
+
         print("active frame is ", active_frame)
 
         # Check for active frame first
@@ -230,7 +234,7 @@ class OpenTextEditorOperator(bpy.types.Operator):
         else:
             # Create a text block and link it with the frame node
             text_block = bpy.data.texts.new(
-                name=f"{active_frame.name}_USER_Data_Block")
+                name=f"{active_frame.name}_FF")
             active_frame.text = text_block
             data_block_list.append(text_block)
             area_selected.spaces.active.text = text_block

@@ -1,5 +1,5 @@
 # Files to be added
 FrameFlowBeta.code-workspace
 
-# Pycahce files
+# Pycache files
 __pycache__/
