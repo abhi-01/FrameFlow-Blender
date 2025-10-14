@@ -20,8 +20,9 @@
 ##  Installation
 
 1. Download the latest `.zip` file from,    
-[Gumroad](https://github.com/abhi-01/FrameFlow-Blender/releases)    
-
+[Gumroad](https://abhishek3d.gumroad.com/l/frameflow)
+2. or simply srag and drop from:  
+[Blender Official Extension's website](https://extensions.blender.org/approval-queue/frameflowblender/)  
 
 🧠 *Tip:* You can remove any previous FrameFlow version before installing a new one.
 
