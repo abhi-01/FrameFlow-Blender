@@ -1,6 +1,5 @@
 import bpy
 
-
 # # A panel that creates a frame node in the shader editor with a pop up for text editor.
 
 # # As of now I have removed the location, size, font size and color properties.
@@ -51,13 +50,6 @@ class SimpleFramePanel(bpy.types.Panel):
         row = layout.row()
         row.operator("wm.open_text_editor",
                      text="Open Text Editor \U0001F5D2")
-
-        # Help, About, Contact, Rate Us section
-        # As of now just help is there, to keep it minimalistic.
-        layout.separator()
-        row = layout.row()
-        row.operator("wm.url_open", text="Help❔",
-                     ).url = "https://github.com/abhi-01/FrameFlow-Blender/blob/main/README.md"
 
 
 # Operator to add a frame node where the mouse cursor is.
@@ -246,5 +238,137 @@ class OpenTextEditorOperator(bpy.types.Operator):
         return {'FINISHED'}
 
 
+# Help Panel (Not importing form Help_Settings_Panel.py to avoid circular import issues)
+# Panel class that contains the help and settings options.
+class TEXT_PT_FRAME_FLOW_HELP_SETTINGS_PANEL(bpy.types.Panel):
+
+    bl_label = "Help"
+    bl_idname = "NODE_PT_frame_flow_help_settings_panel"
+    bl_icon = 'FILE_FONT'
+
+    bl_space_type = 'NODE_EDITOR'
+    bl_region_type = 'UI'
+    # Make it a sub panel of the main FrameFlow panel
+    bl_parent_id = "NODE_PT_simple_frame"
+    bl_options = {'DEFAULT_CLOSED'}
+
+    def draw(self, context):
+
+        layout = self.layout
+
+        row = layout.row(align=True)
+
+        # Help button
+        # separator for better looking
+        layout.separator()
+        # The "align=True" keeps the button intact and pretty, instead of a gap between them.
+        row = layout.row(align=True)
+
+        # row.operator("wm.url_open", text="FAQ",
+        #              ).url = "https://github.com/abhi-01/FrameFlow"
+        row.operator(
+            "wm.url_faq", text="FAQ \u2754").url = "https://github.com/abhi-01/FrameFlow-Blender/wiki/FAQ"
+
+        # row.operator("wm.url_open", text="Docs",
+        #              ).url = "https://github.com/abhi-01/FrameFlow"
+
+        row.operator(
+            "wm.url_docs", text="Docs \U0001F4C4").url = "https://github.com/abhi-01/FrameFlow-Blender/wiki"
+        # # The "align=True" keeps the button intact and pretty, instead of a gap between them.
+        row = layout.row(align=True)
+        # row.label(text="Contact / Rate Us:")
+
+        row.operator("wm.url_rate_us", text="Rate \u2B50",
+                     ).url = "https://abhishek3d.gumroad.com/l/frameflow"
+        row.operator("wm.url_share", text="Share \u2764",
+                     ).url = "https://abhishek3d.gumroad.com/l/frameflow"
+
+        # The "align=True" keeps the button intact and pretty, instead of a gap between them.
+        row = layout.row(align=True)
+        row.operator("wm.url_contact_us", text="Contact \U0001F4E7",  # not "Contact Us", as it got hidden dur to long name
+                     ).url = "mailto:abhishek.physics90@gmail.com"
+        row.operator("wm.url_about_us", text="About \u2139",  # Not "About Us", as it implies a big team.
+                     ).url = "https://github.com/abhi-01/FrameFlow-Blender/blob/main/README.md"
+
+
+# Operator class of FAQ button
+class FAQ_OT_Open(bpy.types.Operator):
+    bl_idname = "wm.url_faq"
+    bl_label = "Open URL FAQ"
+    bl_description = "Open Frequently Asked Questions"
+
+    url: bpy.props.StringProperty()
+
+    def execute(self, context):
+        bpy.ops.wm.url_open(url=self.url)
+        return {'FINISHED'}
+
+
+# Operator class of Docs button
+class DOCS_OT_Open(bpy.types.Operator):
+    bl_idname = "wm.url_docs"
+    bl_label = "Open Docs"
+    bl_description = "Open Documentation"
+
+    url: bpy.props.StringProperty()
+
+    def execute(self, context):
+        bpy.ops.wm.url_open(url=self.url)
+        return {'FINISHED'}
+
+
+# Operator class of Rate Us button
+class RATE_US_OT_Open(bpy.types.Operator):
+    bl_idname = "wm.url_rate_us"
+    bl_label = "Rate on Gumroad page"
+    bl_description = "Rate Us on Gumroad"
+
+    url: bpy.props.StringProperty()
+
+    def execute(self, context):
+        bpy.ops.wm.url_open(url=self.url)
+        return {'FINISHED'}
+
+
+# Operator class of Share button
+class SHARE_OT_Open(bpy.types.Operator):
+    bl_idname = "wm.url_share"
+    bl_label = "Share page on gumroad"
+    bl_description = "Share on Gumroad"
+
+    url: bpy.props.StringProperty()
+
+    def execute(self, context):
+        bpy.ops.wm.url_open(url=self.url)
+        return {'FINISHED'}
+
+
+# Operator class of Contact Us button
+class CONTACT_US_OT_Open(bpy.types.Operator):
+    bl_idname = "wm.url_contact_us"
+    bl_label = "open email to connect "
+    bl_description = "Contact Us via Email"
+
+    url: bpy.props.StringProperty()
+
+    def execute(self, context):
+        bpy.ops.wm.url_open(url=self.url)
+        return {'FINISHED'}
+
+
+# Operator class of About Us button
+class ABOUT_US_OT_Open(bpy.types.Operator):
+    bl_idname = "wm.url_about_us"
+    bl_label = "Open About Us page"
+    bl_description = "About Us"
+
+    url: bpy.props.StringProperty()
+
+    def execute(self, context):
+        bpy.ops.wm.url_open(url=self.url)
+        return {'FINISHED'}
+
+
 classes = [SimpleFramePanel, AddFrameNodeOperator,
-           InsertFrameOperator, OpenTextEditorOperator]
+           InsertFrameOperator, OpenTextEditorOperator, TEXT_PT_FRAME_FLOW_HELP_SETTINGS_PANEL,
+           FAQ_OT_Open, DOCS_OT_Open, RATE_US_OT_Open, SHARE_OT_Open, CONTACT_US_OT_Open, ABOUT_US_OT_Open]
