@@ -212,8 +212,10 @@ class OpenTextEditorOperator(bpy.types.Operator):
         # Setting the text block as the active text in the editor, starts here.
         material = bpy.context.object.active_material
         node_tree = material.node_tree
-        print("Inside open text editor operator, active node",
-              node_tree.nodes.active.name)
+
+        # Giving error when all frames are deleted.
+        # print("Inside open text editor operator, active node",
+        #       node_tree.nodes.active.name)
 
         active_frame = node_tree.nodes.active
 

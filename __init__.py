@@ -9,7 +9,7 @@ from . import Help_Settings_Panel
 
 import bpy
 bl_info = {
-    "name": "FrameFlow",
+    "name": "Frame Flow Beta",
     "author": "Abhishek Kumar",
     "version": (1, 0),
     "blender": (4, 3, 0),

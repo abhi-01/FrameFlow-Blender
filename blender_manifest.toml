@@ -2,10 +2,10 @@ schema_version = "1.0.0"
 
 
 # Change the values according to your extension
-id = "FrameFlow-Blender"
+id = "FrameFlowBlender"
 version = "1.0.0"
 name = "Frame Flow Beta"
-tagline = "One click Node frames with enriched with text formatting, emojis"
+tagline = "Advanced Node Frame Add-on for Blender"
 maintainer = "Abhishek Kumar"
 # Supported types: "add-on", "theme"
 type = "add-on"
@@ -68,4 +68,4 @@ license = [
 # [build]
 # # These are the default build excluded patterns.
 # # You only need to edit them if you want different options.
-paths_exclude_pattern = ["__pycache__/",   "/*.zip" , ".git"]
+paths_exclude_pattern = ["__pycache__/",   "/*.zip"]
