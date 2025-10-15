@@ -15,7 +15,7 @@ website = "https://abhishek3d.gumroad.com/l/frameflow"
 
 # # Optional: tag list defined by Blender and server, see:
 # # https://docs.blender.org/manual/en/dev/advanced/extensions/tags.html
-tags = ["Material", "Node", "Text Editor", "User Interface"]
+tags = ["Node", "Text Editor"]
 
 blender_version_min = "4.3.0"
 # # Optional: Blender version that the extension does not support, earlier versions are supported.
