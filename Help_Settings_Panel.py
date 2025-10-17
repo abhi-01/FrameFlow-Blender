@@ -101,6 +101,12 @@ class TEXT_PT_HELP_SETTINGS_PANEL(bpy.types.Panel):
         row.operator("wm.url_about_us", text="About \u2139",  # Not "About Us", as it implies a big team.
                      ).url = "https://github.com/abhi-01/FrameFlow-Blender/blob/main/README.md"
 
+        # Report bug/Raise issue
+        layout.separator()
+        row = layout.row(align=True)
+        row.operator("wm.url_open", text="Report Bug \U0001FAB2"
+                     ).url = "https://github.com/abhi-01/FrameFlow-Blender/issues"
+
 
 # Update language option button
 def update_language(self, context):
@@ -209,6 +215,19 @@ class ABOUT_US_OT_Open(bpy.types.Operator):
     bl_idname = "wm.url_about_us"
     bl_label = "Open About Us page"
     bl_description = "About Us"
+
+    url: bpy.props.StringProperty()
+
+    def execute(self, context):
+        bpy.ops.wm.url_open(url=self.url)
+        return {'FINISHED'}
+
+
+# Operator class of Report Bug button
+class REPORT_BUG_OT_Open(bpy.types.Operator):
+    bl_idname = "wm.url_report_bug"
+    bl_label = "Open Report Bug page"
+    bl_description = "Report a Bug"
 
     url: bpy.props.StringProperty()
 

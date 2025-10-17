@@ -3,3 +3,7 @@ FrameFlowBeta.code-workspace
 
 # Pycache files
 __pycache__/
+
+# Linking file, will see what to do with it later
+mklink
+rmlink

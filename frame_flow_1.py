@@ -305,6 +305,12 @@ class TEXT_PT_FRAME_FLOW_HELP_SETTINGS_PANEL(bpy.types.Panel):
         row.operator("wm.url_about_us", text="About \u2139",  # Not "About Us", as it implies a big team.
                      ).url = "https://github.com/abhi-01/FrameFlow-Blender/blob/main/README.md"
 
+        # Report bug/Raise issue
+        layout.separator()
+        row = layout.row(align=True)
+        row.operator("wm.url_open", text="Report Bug \U0001FAB2"
+                     ).url = "https://github.com/abhi-01/FrameFlow-Blender/issues"
+
 
 # Operator class of FAQ button
 class FAQ_OT_Open(bpy.types.Operator):

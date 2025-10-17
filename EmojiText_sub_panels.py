@@ -26,7 +26,7 @@ from . Editor_text_format import TEXT_PT_unicode_style, TEXT_OT_live_style
 
 
 # from . Help_Panel import TEXT_PT_HELP_PANEL   # Replaced with Help_Settings_Panel.py
-from . Help_Settings_Panel import LanguageOptionDropDown, TEXT_PT_HELP_SETTINGS_PANEL, LANGUAGE_OT_Update, FAQ_OT_Open, DOCS_OT_Open, RATE_US_OT_Open, SHARE_OT_Open, CONTACT_US_OT_Open, ABOUT_US_OT_Open
+from . Help_Settings_Panel import LanguageOptionDropDown, TEXT_PT_HELP_SETTINGS_PANEL, LANGUAGE_OT_Update, FAQ_OT_Open, DOCS_OT_Open, RATE_US_OT_Open, SHARE_OT_Open, CONTACT_US_OT_Open, ABOUT_US_OT_Open, REPORT_BUG_OT_Open
 
 
 # Registering the emoji_active_category property.
@@ -117,7 +117,7 @@ classes = (TEXT_PT_EMOJI_CATEGORIES,
            TEXT_OT_EMOJI_TRAVEL_AND_PLACES, TEXT_OT_INSERT_TRAVEL_AND_PLACES, TEXT_PT_EMOJI_TRAVEL_AND_PLACES,
            TEXT_OT_EMOJI_FLAGS, TEXT_OT_INSERT_FLAGS, TEXT_PT_EMOJI_FLAGS_PANEL,
            TEXT_PT_unicode_style, TEXT_OT_live_style,
-           LanguageOptionDropDown, TEXT_PT_HELP_SETTINGS_PANEL, LANGUAGE_OT_Update, FAQ_OT_Open, DOCS_OT_Open, RATE_US_OT_Open, SHARE_OT_Open, CONTACT_US_OT_Open, ABOUT_US_OT_Open)
+           LanguageOptionDropDown, TEXT_PT_HELP_SETTINGS_PANEL, LANGUAGE_OT_Update, FAQ_OT_Open, DOCS_OT_Open, RATE_US_OT_Open, SHARE_OT_Open, CONTACT_US_OT_Open, ABOUT_US_OT_Open, REPORT_BUG_OT_Open)
 
 
 # These classes are not included for registration, as of now.
