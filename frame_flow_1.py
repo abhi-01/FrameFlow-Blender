@@ -271,10 +271,10 @@ class TEXT_PT_FRAME_FLOW_HELP_SETTINGS_PANEL(bpy.types.Panel):
         row = layout.row(align=True)
 
         # Changed from gumroad to Blender's extension page, as per the reviewer suggestion.
-        row.operator("wm.url_open", text="FAQ",
-                     ).url = "https://github.com/abhi-01/FrameFlow"
-        # row.operator(
-        #     "wm.url_faq", text="FAQ \u2754").url = "https://github.com/abhi-01/FrameFlow-Blender/wiki/FAQ"
+        # row.operator("wm.url_open", text="FAQ",
+        #              ).url = "https://github.com/abhi-01/FrameFlow"
+        row.operator(
+            "wm.url_faq", text="FAQ \u2754").url = "https://github.com/abhi-01/FrameFlow-Blender/wiki/FAQ"
 
         # row.operator("wm.url_open", text="Docs",
         #              ).url = "https://github.com/abhi-01/FrameFlow"
