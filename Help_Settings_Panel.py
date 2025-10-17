@@ -82,17 +82,17 @@ class TEXT_PT_HELP_SETTINGS_PANEL(bpy.types.Panel):
         # row.label(text="Contact / Rate Us:")
 
         # Changed from gumroad to Blender's extension page, as per the reviewer suggestion.
-        row.operator("wm.url_rate_us", text="Rate \u2B50",
-                     ).url = "https://abhishek3d.gumroad.com/l/frameflow"
-
         # row.operator("wm.url_rate_us", text="Rate \u2B50",
-        #               ).url = "https://extensions.blender.org/approval-queue/frameflowblender/"
+        #              ).url = "https://abhishek3d.gumroad.com/l/frameflow"
+
+        row.operator("wm.url_rate_us", text="Rate \u2B50",
+                     ).url = "https://extensions.blender.org/approval-queue/frameflowblender/"
 
         # Changed from gumroad to Blender's extension page, as per the reviewer suggestion.
-        row.operator("wm.url_share", text="Share \u2764",
-                     ).url = "https://abhishek3d.gumroad.com/l/frameflow"
         # row.operator("wm.url_share", text="Share \u2764",
-        #                            ).url = "https://extensions.blender.org/approval-queue/frameflowblender/"
+        #              ).url = "https://abhishek3d.gumroad.com/l/frameflow"
+        row.operator("wm.url_share", text="Share \u2764",
+                     ).url = "https://extensions.blender.org/approval-queue/frameflowblender/"
 
         # The "align=True" keeps the button intact and pretty, instead of a gap between them.
         row = layout.row(align=True)
@@ -169,10 +169,10 @@ class DOCS_OT_Open(bpy.types.Operator):
 class RATE_US_OT_Open(bpy.types.Operator):
     bl_idname = "wm.url_rate_us"
     # Changed from gumroad to Blender's extension page, as per the reviewer suggestion.
-    bl_label = "Rate on Gumroad page"
-    bl_description = "Rate Us on Gumroad"
-    # bl_label = "Rate on Blender's extension page"
-    # bl_description = "Rate on Blender's extension page"
+    # bl_label = "Rate on Gumroad page"
+    # bl_description = "Rate Us on Gumroad"
+    bl_label = "Rate on Blender's extension page"
+    bl_description = "Rate on Blender's extension page"
 
     url: bpy.props.StringProperty()
 
@@ -185,10 +185,10 @@ class RATE_US_OT_Open(bpy.types.Operator):
 class SHARE_OT_Open(bpy.types.Operator):
     bl_idname = "wm.url_share"
     # Changed from gumroad to Blender's extension page, as per the reviewer suggestion.
-    bl_label = "Share page on gumroad"
-    bl_description = "Share on Gumroad"
-    # bl_label = "Share the addon "
-    # bl_description = "Share the addon"
+    # bl_label = "Share page on gumroad"
+    # bl_description = "Share on Gumroad"
+    bl_label = "Share the addon "
+    bl_description = "Share the addon"
 
     url: bpy.props.StringProperty()
 
