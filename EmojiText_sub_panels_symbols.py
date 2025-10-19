@@ -19,9 +19,8 @@ from .emoji_database_search import load_emoji_database
 # Loading  the emoji data for Symbols category
 EMOJI_INFO = load_emoji_database("Symbols")
 
+
 # BOILER PLATE USAGE STARTS HERE
-
-
 class TEXT_OT_EMOJI_SYMBOLS(BaseEmojiCategoryOperator):
     bl_idname = "text.emoji_symbols"
     bl_label = "Symbols"

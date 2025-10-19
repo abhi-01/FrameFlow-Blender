@@ -234,3 +234,17 @@ class REPORT_BUG_OT_Open(bpy.types.Operator):
     def execute(self, context):
         bpy.ops.wm.url_open(url=self.url)
         return {'FINISHED'}
+
+
+classes = (
+    LanguageOptionDropDown,
+    TEXT_PT_HELP_SETTINGS_PANEL,
+    LANGUAGE_OT_Update,
+    FAQ_OT_Open,
+    DOCS_OT_Open,
+    RATE_US_OT_Open,
+    SHARE_OT_Open,
+    CONTACT_US_OT_Open,
+    ABOUT_US_OT_Open,
+    REPORT_BUG_OT_Open
+)

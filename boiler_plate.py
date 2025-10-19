@@ -5,6 +5,8 @@ import bpy
 # This was created after the reviewer on Blender extension suggested to reduce code duplication.
 # All the classes are pretty self explanatory.
 
+
+# Most important class, inserts the emoji into the text editor
 class BaseEmojiInsertOperator(bpy.types.Operator):
     """Base class for emoji insert operators"""
 
@@ -30,8 +32,9 @@ class BaseEmojiInsertOperator(bpy.types.Operator):
         return {'FINISHED'}
 
 
+# Pretty simple and straight forward. No brainer.
 class BaseEmojiCategoryOperator(bpy.types.Operator):
-    """Base class for emoji category operators"""
+    """Base class for all the emoji category operators"""
     bl_space_type = 'TEXT_EDITOR'
     bl_region_type = 'UI'
     bl_category = "Editor Ⓕ"
@@ -45,20 +48,23 @@ class BaseEmojiCategoryOperator(bpy.types.Operator):
         return {'FINISHED'}
 
 
+# Pretty straightforward panel class for each emoji category
+# Goes through the language settings and shows the emoji names accordingly.
 class BaseEmojiPanel(bpy.types.Panel):
-    """Base class for emoji category panels"""
+    """Base class for all the emoji category panels"""
     bl_space_type = 'TEXT_EDITOR'
     bl_region_type = 'UI'
     bl_category = "Editor Ⓕ"
     bl_parent_id = "TEXT_PT_EMOJI_CATEGORIES"
 
-    # Override in subclasses
+    # Overriding in subclasses
     category_key = ""
     emoji_data = {}
     insert_operator = ""
 
     @classmethod
     def poll(cls, context):
+        # Each sub panel has its own unique key.
         return context.scene.emoji_active_category == cls.category_key
 
     def draw(self, context):
@@ -66,6 +72,8 @@ class BaseEmojiPanel(bpy.types.Panel):
         layout.label(text=f"Found {len(self.emoji_data)} emojis")
         grid = layout.grid_flow(columns=4, align=True)
 
+        # English is set as default language. Here the data is collected through the dropdown options
+        # from the settings option of Language.
         selected_language = bpy.context.scene.language_options_dropdown.languages
         for emoji, data in self.emoji_data.items():
             props = grid.operator(self.insert_operator, text=emoji)

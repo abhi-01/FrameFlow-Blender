@@ -7,3 +7,17 @@ __pycache__/
 # Linking file, will see what to do with it later
 mklink
 rmlink
+
+# Sub panel files
+EmojiText_panel_Blender_Friendly.py
+EmojiText_panel_More_Emojis.py
+EmojiText_sub_panels_activities.py
+EmojiText_sub_panels_animals_and_nature.py
+EmojiText_sub_panels_flags.py
+EmojiText_sub_panels_food_and_drink.py
+EmojiText_sub_panels_objects.py
+EmojiText_sub_panels_people_and_body.py
+EmojiText_sub_panels_smiles_new.py
+EmojiText_sub_panels_symbols.py
+EmojiText_sub_panels_travel_and_places.py
+EmojiText_sub_panels.py
