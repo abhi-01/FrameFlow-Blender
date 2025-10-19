@@ -1,6 +1,6 @@
 import bpy
-import os
-import json
+# import os
+# import json
 
 
 # These are the features associated with all emojis
@@ -12,6 +12,10 @@ import json
 # Tags : "......Tags: 1st, activities, award-medal, birincilik, de, d’or, d’oro, emas, goldmedaille, ....."
 
 
+# IMPORTING FROM BOILER PLATE
+from .boiler_plate import BaseEmojiInsertOperator, BaseEmojiCategoryOperator, BaseEmojiPanel
+
+# REPLACED BY THE "emoji_database_search" FUNCTION
 # # Performs a check to see if the file exists, and then load it.
 # def load_emoji_database():
 #     """Load emoji data from external file"""
@@ -55,91 +59,111 @@ from .emoji_database_search import load_emoji_database
 # Load emoji data with rich metadata
 # EMOJI_INFO = load_emoji_database()
 
-EMOJI_INFO = load_emoji_database("Activities")
+EMOJI_INFO = load_emoji_database("Animals & Nature")
+
+# REPLACED BY BOILER PLATE CLASSES
+# class TEXT_OT_EMOJI_ANIMALS_AND_NATURE(bpy.types.Operator):
+#     bl_space_type = 'TEXT_EDITOR'
+#     bl_region_type = 'UI'
+#     bl_category = "Editor Ⓕ"
+#     bl_label = "Animals & Nature"
+#     bl_idname = "text.emoji_animals_and_nature"
+#     bl_description = "Animals & Nature"
+
+#     def execute(self, context):
+#         # Set active category in scene properties
+#         context.scene.emoji_active_category = 'ANIMALS_AND_NATURE'
+#         return {'FINISHED'}
 
 
-class TEXT_OT_EMOJI_ANIMALS_AND_NATURE(bpy.types.Operator):
-    bl_space_type = 'TEXT_EDITOR'
-    bl_region_type = 'UI'
-    bl_category = "Editor Ⓕ"
-    bl_label = "Animals & Nature"
+# class TEXT_OT_INSERT_ANIMALS_AND_NATURE(bpy.types.Operator):
+#     bl_idname = "text.insert_animals_and_nature"
+#     bl_label = "Insert Animals & Nature"
+
+#     emoji: bpy.props.StringProperty(
+#         name="Emoji",
+#         description="The emoji character to insert",
+#         default="📱"
+#     )
+
+#     tooltip: bpy.props.StringProperty(
+#         name="Tooltip",
+#         description="Hover description for the emoji",
+#         default=""
+#     )
+
+#     @classmethod
+#     def description(cls, context, properties):
+#         return properties.tooltip if properties.tooltip else "Insert emoji into text editor"
+
+#     def execute(self, context):
+#         if context.space_data.type == 'TEXT_EDITOR' and context.space_data.text:
+#             context.space_data.text.write(self.emoji)
+#         return {'FINISHED'}
+
+
+# # Panel to contain emojis, a grid with four columns.
+# class TEXT_PT_EMOJI_ANIMALS_AND_NATURE(bpy.types.Panel):
+#     bl_space_type = 'TEXT_EDITOR'
+#     bl_region_type = 'UI'
+#     bl_category = "Editor Ⓕ"
+#     bl_label = "Animals & Nature"
+#     bl_parent_id = "TEXT_PT_EMOJI_CATEGORIES"
+
+#     @classmethod
+#     def poll(cls, context):
+#         return context.scene.emoji_active_category == 'ANIMALS_AND_NATURE'
+
+#     def draw(self, context):
+#         layout = self.layout
+#         # Debug info
+#         layout.label(text=f"Found {len(EMOJI_INFO)} emojis")
+#         grid = layout.grid_flow(columns=4, align=True)
+
+#         # Get selected language from scene properties
+#         selected_language = bpy.context.scene.language_options_dropdown.languages
+#         for emoji, data in EMOJI_INFO.items():
+#             props = grid.operator("text.insert_food_and_drink", text=emoji)
+#             props.emoji = emoji
+#             if isinstance(data, dict):
+#                 # Get emoji name in selected language, fallback to English if not available
+
+#                 emoji_name = data.get("names", {}).get(selected_language,
+#                                                        # Fallback to English if selected language not available
+#                                                        data.get("names", {}).get("en", "Unknown Emoji"))
+
+#                 # Not sure if it is needed. right now.
+#                 emoji_category = data.get("category", "Unknown Category")
+#                 # Not sure if it is needed. right now.
+#                 emoji_subgroup = data.get("subgroup", "")
+
+#                 tooltip_text = f"{emoji_name}"
+#                 # # This was taking space so commented it out, keeping it minimal.
+#                 # if emoji_subgroup:
+#                 #     tooltip_text += f" ({emoji_subgroup})"
+#                 props.tooltip = tooltip_text
+#             else:
+#                 props.tooltip = str(data)
+
+
+# BOILER PLATE USAGE STARTS HERE
+class TEXT_OT_EMOJI_ANIMALS_AND_NATURE(BaseEmojiCategoryOperator):
     bl_idname = "text.emoji_animals_and_nature"
+    bl_label = "Animals & Nature"
     bl_description = "Animals & Nature"
-
-    def execute(self, context):
-        # Set active category in scene properties
-        context.scene.emoji_active_category = 'ANIMALS_AND_NATURE'
-        return {'FINISHED'}
+    category_name = "ANIMALS_AND_NATURE"
 
 
-class TEXT_OT_INSERT_ANIMALS_AND_NATURE(bpy.types.Operator):
+class TEXT_OT_INSERT_ANIMALS_AND_NATURE(BaseEmojiInsertOperator):
     bl_idname = "text.insert_animals_and_nature"
     bl_label = "Insert Animals & Nature"
 
-    emoji: bpy.props.StringProperty(
-        name="Emoji",
-        description="The emoji character to insert",
-        default="📱"
-    )
 
-    tooltip: bpy.props.StringProperty(
-        name="Tooltip",
-        description="Hover description for the emoji",
-        default=""
-    )
-
-    @classmethod
-    def description(cls, context, properties):
-        return properties.tooltip if properties.tooltip else "Insert emoji into text editor"
-
-    def execute(self, context):
-        if context.space_data.type == 'TEXT_EDITOR' and context.space_data.text:
-            context.space_data.text.write(self.emoji)
-        return {'FINISHED'}
-
-
-# Panel to contain emojis, a grid with four columns.
-class TEXT_PT_EMOJI_ANIMALS_AND_NATURE(bpy.types.Panel):
-    bl_space_type = 'TEXT_EDITOR'
-    bl_region_type = 'UI'
-    bl_category = "Editor Ⓕ"
+class TEXT_PT_EMOJI_ANIMALS_AND_NATURE(BaseEmojiPanel):
     bl_label = "Animals & Nature"
-    bl_parent_id = "TEXT_PT_EMOJI_CATEGORIES"
-
-    @classmethod
-    def poll(cls, context):
-        return context.scene.emoji_active_category == 'ANIMALS_AND_NATURE'
-
-    def draw(self, context):
-        layout = self.layout
-        # Debug info
-        layout.label(text=f"Found {len(EMOJI_INFO)} emojis")
-        grid = layout.grid_flow(columns=4, align=True)
-
-        # Get selected language from scene properties
-        selected_language = bpy.context.scene.language_options_dropdown.languages
-        for emoji, data in EMOJI_INFO.items():
-            props = grid.operator("text.insert_food_and_drink", text=emoji)
-            props.emoji = emoji
-            if isinstance(data, dict):
-                # Get emoji name in selected language, fallback to English if not available
-
-                emoji_name = data.get("names", {}).get(selected_language,
-                                                       # Fallback to English if selected language not available
-                                                       data.get("names", {}).get("en", "Unknown Emoji"))
-
-                # Not sure if it is needed. right now.
-                emoji_category = data.get("category", "Unknown Category")
-                # Not sure if it is needed. right now.
-                emoji_subgroup = data.get("subgroup", "")
-
-                tooltip_text = f"{emoji_name}"
-                # # This was taking space so commented it out, keeping it minimal.
-                # if emoji_subgroup:
-                #     tooltip_text += f" ({emoji_subgroup})"
-                props.tooltip = tooltip_text
-            else:
-                props.tooltip = str(data)
+    category_key = "ANIMALS_AND_NATURE"
+    emoji_data = EMOJI_INFO
+    insert_operator = "text.insert_animals_and_nature"
 
 
 # All the classes in here have to be imported in the EmojiText_sub_panels.py file and added to its classes tuple

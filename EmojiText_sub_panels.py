@@ -104,6 +104,9 @@ class TEXT_PT_EMOJI_CATEGORIES(bpy.types.Panel):
         # Flags
         row.operator("text.emoji_flags", text="🚩")
 
+        # # For debugging purpose, show active category
+        # layout.label(text=f"Active: {context.scene.emoji_active_category}")
+
 
 # List of all classes to be registered of the panels.
 classes = (TEXT_PT_EMOJI_CATEGORIES,
