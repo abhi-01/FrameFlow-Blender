@@ -40,13 +40,24 @@ def register():
     # Commented out after abstraction of single file panels
     EmojiText_sub_panels.init()  # This now registers both properties
 
+    # Register the emoji_selected_language property
+    bpy.types.Scene.emoji_selected_language = bpy.props.StringProperty(
+        name="Emoji Language",
+        description="Selected language for emoji names",
+        default="en"
+    )
+
     # For Language dropdowns
     bpy.types.Scene.language_options_dropdown = bpy.props.PointerProperty(
         type=Help_Settings_Panel.LanguageOptionDropDown)
 
 
 def unregister():
+
     # Delete properties FIRST
+    if hasattr(bpy.types.Scene, "emoji_selected_language"):
+        del bpy.types.Scene.emoji_selected_language
+
     if hasattr(bpy.types.Scene, "language_options_dropdown"):
         del bpy.types.Scene.language_options_dropdown
 
