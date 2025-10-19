@@ -1,7 +1,9 @@
-# This file is not added to the main panel.
-# This is kept to add specific symbols that might be useful for Blender but are not covered by Emojis.
-
 import bpy
+
+
+# # IMPORTANT: DO NOT DELETE THIS FILE.
+# This class is not added to the main panel.
+# This is kept to add specific symbols that might be useful for Blender but are not covered by Emojis.
 
 
 class TEXT_PT_MORE_EMOJI_CATEGORIES(bpy.types.Panel):

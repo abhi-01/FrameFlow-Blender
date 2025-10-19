@@ -50,6 +50,7 @@ def set_live_mode(context, mode):
     context.window_manager["unicode_text_style_mode"] = mode
 
 
+# # IMPORTANT: DO NOT DELETE THIS CODE BLOCK
 # # Operator – Manual Apply, user selects text and click button.
 # # Leaving it for now, in case needed in future.
 

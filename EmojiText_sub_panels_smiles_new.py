@@ -1,6 +1,4 @@
 import bpy
-# import os
-# import json
 
 
 # These are the features associated with all emojis
@@ -14,142 +12,11 @@ import bpy
 # IMPORTING FROM BOILER PLATE
 from .boiler_plate import BaseEmojiInsertOperator, BaseEmojiCategoryOperator, BaseEmojiPanel
 
-
-# REPLACED BY THE "emoji_database_search" FUNCTION
-# # Performs a check to see if the file exists, and then load it.
-# def load_emoji_database():
-#     """Load emoji data from external file"""
-#     emoji_data = {}
-
-#     # Get addon directory path
-#     addon_dir = os.path.dirname(os.path.realpath(__file__))
-
-#     database_path = os.path.join(addon_dir, "emoji_database.txt")
-
-#     print(f"Looking for emoji database at: {database_path}")
-
-#     try:
-#         with open(database_path, 'r', encoding='utf-8') as file:
-#             # Load JSON data
-#             all_emojis = json.load(file)
-
-#             # Filter only "Smileys & Emotion" category
-#             for emoji, data in all_emojis.items():
-#                 if data.get("category") == "Smileys & Emotion":
-#                     emoji_data[emoji] = data
-
-#     except FileNotFoundError:
-#         print(f"Warning: emoji_database.txt not found at {database_path}")
-
-#     except json.JSONDecodeError as e:
-#         print(f"Error parsing JSON: {e}")
-#         emoji_data = {}  # Use fallback data here too
-#     except Exception as e:
-#         print(f"Error loading emoji database: {e}")
-#         emoji_data = {}
-
-#     print(f"Loaded {len(emoji_data)} emojis")
-#     return emoji_data
-
-
-# # Load emoji data with rich metadata
-# EMOJI_INFO = load_emoji_database()
-
 from .emoji_database_search import load_emoji_database
 
-# Load emoji data with rich metadata
-# EMOJI_INFO = load_emoji_database()
 
+# Loading  the emoji data for Smileys & Emotion category
 EMOJI_INFO = load_emoji_database("Smileys & Emotion")
-
-# REPLACED BY BOILER PLATE CLASSES
-# class TEXT_OT_EMOJI_SMILES(bpy.types.Operator):
-#     bl_space_type = 'TEXT_EDITOR'  # Changed from VIEW_3D
-#     bl_region_type = 'UI'
-#     bl_category = "Editor Ⓕ"
-#     bl_label = "Smiles"
-#     bl_idname = "text.emoji_smiles"
-#     # Just "Smiley" Not Smiley emojis, as this takes up space in description, keep it clean and less cluttered.
-#     bl_description = "Smiley"
-
-#     def execute(self, context):
-
-#         # Set active category in scene properties
-#         context.scene.emoji_active_category = 'SMILES'
-
-#         return {'FINISHED'}
-
-
-# class TEXT_OT_INSERT_SMILES(bpy.types.Operator):
-#     bl_idname = "text.insert_smile"
-#     bl_label = "Insert Smile"
-
-#     emoji: bpy.props.StringProperty(
-#         name="Emoji",
-#         description="The emoji character to insert",
-#         default="😊"
-#     )
-
-#     # Add tooltip property
-#     tooltip: bpy.props.StringProperty(
-#         name="Tooltip",
-#         description="Hover description for the emoji",
-#         default=""
-#     )
-
-#     @classmethod
-#     def description(cls, context, properties):
-#         # Return custom tooltip if set, otherwise return default description
-#         return properties.tooltip if properties.tooltip else "Insert emoji into text editor"
-
-#     def execute(self, context):
-#         if context.space_data.type == 'TEXT_EDITOR' and context.space_data.text:
-#             context.space_data.text.write(self.emoji)
-#         return {'FINISHED'}
-
-
-# # Panel that contain emojis, a grid with four columns.
-# class TEXT_PT_EMOJI_SMILES_PANEL(bpy.types.Panel):
-#     bl_space_type = 'TEXT_EDITOR'
-#     bl_region_type = 'UI'
-#     bl_category = "Editor Ⓕ"
-#     bl_label = "Smiles"
-#     bl_parent_id = "TEXT_PT_EMOJI_CATEGORIES"  # Parent panel ID
-
-#     @classmethod
-#     def poll(cls, context):
-#         # Only show this panel when smiles category is active
-#         return context.scene.emoji_active_category == 'SMILES'
-
-#     def draw(self, context):
-#         layout = self.layout
-#         # Debug info
-#         layout.label(text=f"Found {len(EMOJI_INFO)} emojis")
-#         grid = layout.grid_flow(columns=4, align=True)
-
-#         # Get selected language from scene properties
-#         selected_language = bpy.context.scene.language_options_dropdown.languages
-#         for emoji, data in EMOJI_INFO.items():
-#             props = grid.operator("text.insert_food_and_drink", text=emoji)
-#             props.emoji = emoji
-#             if isinstance(data, dict):
-#                 # Get emoji name in selected language, fallback to English if not available.
-#                 emoji_name = data.get("names", {}).get(selected_language,
-#                                                        # Fallback to English if selected language not available
-#                                                        data.get("names", {}).get("en", "Unknown Emoji"))
-
-#                 # Not sure if it is needed. right now.
-#                 emoji_category = data.get("category", "Unknown Category")
-#                 # Not sure if it is needed. right now.
-#                 emoji_subgroup = data.get("subgroup", "")
-
-#                 tooltip_text = f"{emoji_name}"
-#                 # # This was taking space so commented it out, keeping it minimal.
-#                 # if emoji_subgroup:
-#                 #     tooltip_text += f" ({emoji_subgroup})"
-#                 props.tooltip = tooltip_text
-#             else:
-#                 props.tooltip = str(data)
 
 
 # BOILER PLATE USAGE STARTS HERE

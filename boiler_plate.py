@@ -3,6 +3,7 @@ import bpy
 
 # Boiler plate base classes for emoji operators and panels
 # This was created after the reviewer on Blender extension suggested to reduce code duplication.
+# All the classes are pretty self explanatory.
 
 class BaseEmojiInsertOperator(bpy.types.Operator):
     """Base class for emoji insert operators"""
