@@ -12,43 +12,50 @@ import json
 # Tags : "......Tags: 1st, activities, award-medal, birincilik, de, d’or, d’oro, emas, goldmedaille, ....."
 
 
-# Performs a check to see if the file exists, and then load it.
-def load_emoji_database():
-    """Load emoji data from external file"""
-    emoji_data = {}
+# # Performs a check to see if the file exists, and then load it.
+# def load_emoji_database():
+#     """Load emoji data from external file"""
+#     emoji_data = {}
 
-    # Get addon directory path
-    addon_dir = os.path.dirname(os.path.realpath(__file__))
-    database_path = os.path.join(addon_dir, "emoji_database.txt")
+#     # Get addon directory path
+#     addon_dir = os.path.dirname(os.path.realpath(__file__))
+#     database_path = os.path.join(addon_dir, "emoji_database.txt")
 
-    print(f"Looking for emoji database at: {database_path}")
+#     print(f"Looking for emoji database at: {database_path}")
 
-    try:
-        with open(database_path, 'r', encoding='utf-8') as file:
-            # Load JSON data
-            all_emojis = json.load(file)
+#     try:
+#         with open(database_path, 'r', encoding='utf-8') as file:
+#             # Load JSON data
+#             all_emojis = json.load(file)
 
-            # Filter only "Animals & Nature" category
-            for emoji, data in all_emojis.items():
-                if data.get("category") == "Animals & Nature":
-                    emoji_data[emoji] = data
+#             # Filter only "Animals & Nature" category
+#             for emoji, data in all_emojis.items():
+#                 if data.get("category") == "Animals & Nature":
+#                     emoji_data[emoji] = data
 
-    except FileNotFoundError:
-        print(f"Warning: emoji_database.txt not found at {database_path}")
+#     except FileNotFoundError:
+#         print(f"Warning: emoji_database.txt not found at {database_path}")
 
-    except json.JSONDecodeError as e:
-        print(f"Error parsing JSON: {e}")
-        emoji_data = {}
-    except Exception as e:
-        print(f"Error loading emoji database: {e}")
-        emoji_data = {}
+#     except json.JSONDecodeError as e:
+#         print(f"Error parsing JSON: {e}")
+#         emoji_data = {}
+#     except Exception as e:
+#         print(f"Error loading emoji database: {e}")
+#         emoji_data = {}
 
-    print(f"Loaded {len(emoji_data)} emojis from Animals & Nature category")
-    return emoji_data
+#     print(f"Loaded {len(emoji_data)} emojis from Animals & Nature category")
+#     return emoji_data
 
+
+# # Load emoji data with rich metadata
+# EMOJI_INFO = load_emoji_database()
+
+from .emoji_database_search import load_emoji_database
 
 # Load emoji data with rich metadata
-EMOJI_INFO = load_emoji_database()
+# EMOJI_INFO = load_emoji_database()
+
+EMOJI_INFO = load_emoji_database("Activities")
 
 
 class TEXT_OT_EMOJI_ANIMALS_AND_NATURE(bpy.types.Operator):
