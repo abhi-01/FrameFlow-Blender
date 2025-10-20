@@ -10,8 +10,8 @@ def load_emoji_database(category=None):
     addon_dir = os.path.dirname(os.path.realpath(__file__))
     database_path = os.path.join(addon_dir, "emoji_database.txt")
 
-    # Debug: print the database path
-    print(f"Looking for emoji database at: {database_path}")
+    # # Debug: print the database path
+    # print(f"Looking for emoji database at: {database_path}")
 
     # Exception handling for file operations. The text file is already created and is packaged with the addon.
     # Still, if the user deletes it, this will handle that case.
@@ -38,5 +38,7 @@ def load_emoji_database(category=None):
         emoji_data = {}
 
     category_name = category if category else "all categories"
-    print(f"Loaded {len(emoji_data)} emojis from {category_name}")
+    # # Debug: print number of loaded emojis for the category
+    # # Helps to understand if the category and its emojis are being loaded correctly
+    # print(f"Loaded {len(emoji_data)} emojis from {category_name}")
     return emoji_data

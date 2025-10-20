@@ -10,3 +10,6 @@ rmlink
 
 # Sub panel files
 sub_panels/
+
+# Ignore python files
+Help_Settings_Panel_old.py
