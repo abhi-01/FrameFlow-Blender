@@ -11,7 +11,7 @@ import bpy
 bl_info = {
     "name": "Frame Flow Beta",
     "author": "Abhishek Kumar",
-    "version": (1, 2, 1),
+    "version": (1, 2, 2),
     "blender": (4, 3, 0),
     "location": "Node Editor > Sidebar > Node",
     "description": "Advanced Node Frame Add-on for Blender",
