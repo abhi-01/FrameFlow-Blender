@@ -57,10 +57,10 @@ class BaseHelpSettingsPanel:
         row = layout.row(align=True)
 
         row.operator("wm.url_rate_us", text="Rate \u2B50",
-                     ).url = "https://abhishek3d.gumroad.com/l/frameflow"
+                     ).url = "https://extensions.blender.org/approval-queue/frameflowblender/"
 
         row.operator("wm.url_share", text="Share \u2764",
-                     ).url = "https://abhishek3d.gumroad.com/l/frameflow"
+                     ).url = "https://extensions.blender.org/approval-queue/frameflowblender/"
 
         row = layout.row(align=True)
         row.operator("wm.url_contact_us", text="Contact \U0001F4E7",
@@ -95,59 +95,8 @@ class TEXT_PT_HELP_SETTINGS_PANEL(BaseHelpSettingsPanel, bpy.types.Panel):
         row.prop(lang_options, "languages", text="")
         row.operator("language.update", text="Update")
 
-<<<<<<< HEAD
-        # Settings Button
-        # To be added. May contain default color, text of frames, default size of text editor, default name of text block, etc.
-
-        # Help button
-        # separator for better looking
-        layout.separator()
-        # The "align=True" keeps the button intact and pretty, instead of a gap between them.
-        row = layout.row(align=True)
-
-        # row.operator("wm.url_open", text="FAQ",
-        #              ).url = "https://github.com/abhi-01/FrameFlow"
-        row.operator(
-            "wm.url_faq", text="FAQ \u2754").url = "https://github.com/abhi-01/FrameFlow-Blender/wiki/FAQ"
-
-        # row.operator("wm.url_open", text="Docs",
-        #              ).url = "https://github.com/abhi-01/FrameFlow"
-
-        row.operator(
-            "wm.url_docs", text="Docs \U0001F4C4").url = "https://github.com/abhi-01/FrameFlow-Blender/wiki"
-        # # The "align=True" keeps the button intact and pretty, instead of a gap between them.
-        row = layout.row(align=True)
-        # row.label(text="Contact / Rate Us:")
-
-        # Changed from gumroad to Blender's extension page, as per the reviewer suggestion.
-        # row.operator("wm.url_rate_us", text="Rate \u2B50",
-        #              ).url = "https://abhishek3d.gumroad.com/l/frameflow"
-
-        row.operator("wm.url_rate_us", text="Rate \u2B50",
-                     ).url = "https://extensions.blender.org/approval-queue/frameflowblender/"
-
-        # Changed from gumroad to Blender's extension page, as per the reviewer suggestion.
-        # row.operator("wm.url_share", text="Share \u2764",
-        #              ).url = "https://abhishek3d.gumroad.com/l/frameflow"
-        row.operator("wm.url_share", text="Share \u2764",
-                     ).url = "https://extensions.blender.org/approval-queue/frameflowblender/"
-
-        # The "align=True" keeps the button intact and pretty, instead of a gap between them.
-        row = layout.row(align=True)
-        row.operator("wm.url_contact_us", text="Contact \U0001F4E7",  # not "Contact Us", as it got hidden dur to long name
-                     ).url = "mailto:abhishek.physics90@gmail.com"
-        row.operator("wm.url_about_us", text="About \u2139",  # Not "About Us", as it implies a big team.
-                     ).url = "https://github.com/abhi-01/FrameFlow-Blender/blob/main/README.md"
-
-        # Report bug/Raise issue
-        layout.separator()
-        row = layout.row(align=True)
-        row.operator("wm.url_open", text="Report Bug \U0001FAB2"
-                     ).url = "https://github.com/abhi-01/FrameFlow-Blender/issues"
-=======
         # Draw common buttons
         self.draw_common_buttons(layout)
->>>>>>> Abstracted_single_panel_class
 
 
 # Panel for Node Editor (Shader/Geometry/Compositor)
@@ -223,9 +172,6 @@ class DOCS_OT_Open(bpy.types.Operator):
 # Operator class of Rate Us button
 class RATE_US_OT_Open(bpy.types.Operator):
     bl_idname = "wm.url_rate_us"
-    # Changed from gumroad to Blender's extension page, as per the reviewer suggestion.
-    # bl_label = "Rate on Gumroad page"
-    # bl_description = "Rate Us on Gumroad"
     bl_label = "Rate on Blender's extension page"
     bl_description = "Rate on Blender's extension page"
 
@@ -239,9 +185,6 @@ class RATE_US_OT_Open(bpy.types.Operator):
 # Operator class of Share button
 class SHARE_OT_Open(bpy.types.Operator):
     bl_idname = "wm.url_share"
-    # Changed from gumroad to Blender's extension page, as per the reviewer suggestion.
-    # bl_label = "Share page on gumroad"
-    # bl_description = "Share on Gumroad"
     bl_label = "Share the addon "
     bl_description = "Share the addon"
 
