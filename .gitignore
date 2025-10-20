@@ -8,5 +8,10 @@ __pycache__/
 mklink
 rmlink
 
+<<<<<<< HEAD
 # Exclude old sub_panels directory (now using abstracted single file)
 sub_panels/
+=======
+# Sub panel files
+sub_panels/
+>>>>>>> Abstracted_single_panel_class

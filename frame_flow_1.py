@@ -1,16 +1,7 @@
 import bpy
 
-# # A panel that creates a frame node in the shader editor with a pop up for text editor.
-
-# # As of now I have removed the location, size, font size and color properties.
-# # Out of these 4 font size and color are already provided by Blender.
-
-# # So, I will keep the "open editor" option as of now.
-
-# Features to add:
-# # 1. Add color buttons for specific nodes?
-
-# # 2. Add backups?
+# This is the main panel and operators for FrameFlow.
+# It creates a panel that adds a frame node in the shader editor with a pop up for text editor.
 
 
 # This data block list will keep track of all the text blocks created by FrameFlow,
@@ -244,6 +235,7 @@ class OpenTextEditorOperator(bpy.types.Operator):
         return {'FINISHED'}
 
 
+<<<<<<< HEAD
 # Help Panel (Not importing form Help_Settings_Panel.py to avoid circular import issues)
 # Panel class that contains the help and settings options.
 class TEXT_PT_FRAME_FLOW_HELP_SETTINGS_PANEL(bpy.types.Panel):
@@ -394,6 +386,9 @@ class ABOUT_US_OT_Open(bpy.types.Operator):
     def execute(self, context):
         bpy.ops.wm.url_open(url=self.url)
         return {'FINISHED'}
+=======
+# Help panel is in the module Help_Settings_Panel.py
+>>>>>>> Abstracted_single_panel_class
 
 # Operator class of Report Bug button
 
@@ -411,5 +406,10 @@ class REPORT_BUG_OT_Open(bpy.types.Operator):
 
 
 classes = [SimpleFramePanel, AddFrameNodeOperator,
+<<<<<<< HEAD
            InsertFrameOperator, OpenTextEditorOperator, TEXT_PT_FRAME_FLOW_HELP_SETTINGS_PANEL,
            FAQ_OT_Open, DOCS_OT_Open, RATE_US_OT_Open, SHARE_OT_Open, CONTACT_US_OT_Open, ABOUT_US_OT_Open, REPORT_BUG_OT_Open]
+=======
+           InsertFrameOperator,
+           OpenTextEditorOperator]
+>>>>>>> Abstracted_single_panel_class
