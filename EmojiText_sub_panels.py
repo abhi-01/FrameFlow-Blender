@@ -16,24 +16,28 @@ class TEXT_PT_EMOJI_CATEGORIES(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
 
-        # Debug line - shows current active category
-        layout.label(text=f"Active: {context.scene.emoji_active_category}")
+        # # Debug line - shows current active category
+        # layout.label(text=f"Active: {context.scene.emoji_active_category}")
 
+        # Add categories as buttons in the row
         # Category buttons (3 rows)
         row = layout.row(align=True)
-        row.operator("text.emoji_smiles", text="😊")
-        row.operator("text.emoji_people_and_body", text="👤")
-        row.operator("text.emoji_animals_and_nature", text="🐱")
+        row.operator("text.emoji_symbols", text="✔️")  # Symbols
+        row.operator("text.emoji_objects", text="🔔")  # Objects
+        row.operator("text.emoji_smiles", text="😊")  # Smiles
 
         row = layout.row(align=True)
-        row.operator("text.emoji_food_and_drink", text="🍩")
-        row.operator("text.emoji_activities", text="⚽")
-        row.operator("text.emoji_travel_and_places", text="✈️")
+        row.operator("text.emoji_people_and_body", text="👩")  # People & Body
+        row.operator("text.emoji_animals_and_nature",
+                     text="🐱")  # Animals & Nature
+        row.operator("text.emoji_activities", text="🎄")  # Activities
 
         row = layout.row(align=True)
-        row.operator("text.emoji_objects", text="🔔")
-        row.operator("text.emoji_symbols", text="✔️")
-        row.operator("text.emoji_flags", text="🚩")
+
+        row.operator("text.emoji_food_and_drink", text="🍩")    # Food & Drink
+        row.operator("text.emoji_travel_and_places",
+                     text="🛩️")  # Travel & Places
+        row.operator("text.emoji_flags", text="🚩")  # Flags
 
 
 # Registering the emoji_active_category property.
