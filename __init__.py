@@ -1,6 +1,7 @@
 from . import frame_flow_1
 from . import EmojiText
 from . import EmojiText_sub_panels
+from . import Editor_text_format
 
 # Need to import it separately to register the property group for language dropdown.
 from . import Help_Settings_Panel
@@ -23,6 +24,7 @@ classes = (
     *frame_flow_1.classes,  # Unpack frame_flow_1 classes
     *EmojiText.classes,       # Unpack EmojiText classes
     *EmojiText_sub_panels.classes,  # Unpack EmojiText_sub_panels classes
+    *Editor_text_format.classes,  # Unpack Editor_text_format classes
     *Help_Settings_Panel.classes  # Other classes from Help_Settings_Panel
 )
 
