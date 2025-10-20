@@ -66,13 +66,3 @@ def cleanup():
 
 # Get all dynamically generated classes from the abstracted file
 classes = [TEXT_PT_EMOJI_CATEGORIES] + get_classes()
-
-
-def register():
-    for cls in classes:
-        bpy.utils.register_class(cls)
-
-
-def unregister():
-    for cls in reversed(classes):
-        bpy.utils.unregister_class(cls)
