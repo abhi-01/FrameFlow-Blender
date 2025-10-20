@@ -1,7 +1,8 @@
 import bpy
 
-# Contains the search functionality for emojis, including the search bar and search results in
-# a 4 column grid.
+# Contains the search functionality for emojis,
+# including the search bar and
+# search results in a 4 column grid.
 
 
 # To change keywords for searching, In the function "def search_emojis(query):"
@@ -10,11 +11,13 @@ import bpy
 from .emoji_database_search import load_emoji_database
 
 # # Loading  the emoji data for Symbols category
-# EMOJI_INFO = load_emoji_database("Symbols")
 # Load the database once
 EMOJI_DATABASE = load_emoji_database()
 
 
+# This function takes into account the selected language for searching
+# and goes through all the metadata provided in the emoji database "EMOJI_DATABASE"
+# The categories of metadata can be added or removed.
 def search_emojis(query):
     """Search emojis based on query matching any metadata field"""
     if not query:

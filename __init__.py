@@ -31,14 +31,9 @@ def register():
     # Register all classes first.
     for cls in classes:
         bpy.utils.register_class(cls)
-    # # Register the language property in scene
-    # bpy.types.Scene.emoji_selected_language = bpy.props.StringProperty(
-    #     name="Emoji Language",
-    #     description="Selected language for emoji names",
-    #     default="en"
-    # )
-    # Commented out after abstraction of single file panels
-    EmojiText_sub_panels.init()  # This now registers both properties
+
+    # This registers both properties, emoji_active_category and emoji_search_query
+    EmojiText_sub_panels.init()
 
     # Register the emoji_selected_language property
     bpy.types.Scene.emoji_selected_language = bpy.props.StringProperty(
@@ -67,17 +62,6 @@ def unregister():
     # THEN unregister classes
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
-
-    # # Unregister the property
-    # if hasattr(bpy.types.Scene, "emoji_selected_language"):
-    #     del bpy.types.Scene.emoji_selected_language
-
-    # # Commented out after abstraction of single file panels
-    # EmojiText_sub_panels.cleanup()  # This cleans up both properties
-    # for cls in reversed(classes):
-    #     bpy.utils.unregister_class(cls)
-
-    # del bpy.types.Scene.language_options_dropdown
 
 
 if __name__ == "__main__":

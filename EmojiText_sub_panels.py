@@ -1,11 +1,11 @@
-"""Main emoji sub-panels file - now just imports from unified file"""
-
 import bpy
 from .abstracted_single_panel_file import get_classes
 
+
+"""Main emoji sub-panels file - now just imports from unified file"""
+
+
 # Main emoji categories panel (keeps the category buttons)
-
-
 class TEXT_PT_EMOJI_CATEGORIES(bpy.types.Panel):
     bl_space_type = 'TEXT_EDITOR'
     bl_region_type = 'UI'
@@ -23,24 +23,24 @@ class TEXT_PT_EMOJI_CATEGORIES(bpy.types.Panel):
         row = layout.row(align=True)
         row.operator("text.emoji_smiles", text="😊")
         row.operator("text.emoji_people_and_body", text="👤")
-        row.operator("text.emoji_animals_and_nature", text="🐾")
+        row.operator("text.emoji_animals_and_nature", text="🐱")
 
         row = layout.row(align=True)
-        row.operator("text.emoji_food_and_drink", text="🍔")
+        row.operator("text.emoji_food_and_drink", text="🍩")
         row.operator("text.emoji_activities", text="⚽")
         row.operator("text.emoji_travel_and_places", text="✈️")
 
         row = layout.row(align=True)
-        row.operator("text.emoji_objects", text="💡")
-        row.operator("text.emoji_symbols", text="🔣")
-        row.operator("text.emoji_flags", text="🏁")
+        row.operator("text.emoji_objects", text="🔔")
+        row.operator("text.emoji_symbols", text="✔️")
+        row.operator("text.emoji_flags", text="🚩")
 
 
 # Registering the emoji_active_category property.
 # Add property definition at module level
 
 # WHY THE def init() and def cleanup() functions?
-# To avoid potential conflicts or errors during the registration and un-registration process of the addon. ??
+# To avoid potential conflicts or errors during the registration and un-registration process of the addon. ??!
 def init():
     bpy.types.Scene.emoji_active_category = bpy.props.StringProperty(
         name="Active Emoji Category",
@@ -64,7 +64,7 @@ def cleanup():
         del bpy.types.Scene.emoji_search_query
 
 
-# Get all dynamically generated classes
+# Get all dynamically generated classes from the abstracted file
 classes = [TEXT_PT_EMOJI_CATEGORIES] + get_classes()
 
 

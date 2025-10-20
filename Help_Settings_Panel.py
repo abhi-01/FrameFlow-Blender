@@ -1,12 +1,13 @@
 import bpy
 
+"""This module contains the Help & Settings panels for both Text Editor and Node Editor.
+It also includes the language selection dropdown for emojis."""
+
+
 # Language dropdown to select language for the addon.
 # This language option is based on the Python Emoji package:
 # https://pypi.org/project/emoji/
-
 # This has to registered (and unregistered) via the __init__.py file.
-
-
 class LanguageOptionDropDown(bpy.types.PropertyGroup):
     languages: bpy.props.EnumProperty(
         name="Languages",
@@ -34,9 +35,8 @@ class LanguageOptionDropDown(bpy.types.PropertyGroup):
 # Global variable to store the selected language
 user_selected_language = 'en'
 
+
 # BASE CLASS - contains all the common UI logic
-
-
 class BaseHelpSettingsPanel:
     """Base class for Help & Settings panels - inherit from this in different editors"""
     bl_label = "Help"
@@ -115,16 +115,18 @@ class NODE_PT_HELP_SETTINGS_PANEL(BaseHelpSettingsPanel, bpy.types.Panel):
 
         # NO language dropdown here - only common buttons
         self.draw_common_buttons(layout)
-# ...existing code for update_language function...
 
 
+# Simply update the global variable and scene property
 def update_language(self, context):
     selected_language = context.scene.language_options_dropdown.languages
     context.scene.emoji_selected_language = selected_language
-    print(f"Selected Language: {selected_language}")
-    print(f"Global User Selected Language: {user_selected_language}")
+    # # Debugging print statements
+    # print(f"Selected Language: {selected_language}")
+    # print(f"Global User Selected Language: {user_selected_language}")
 
 
+# Operator to update language selection
 class LANGUAGE_OT_Update(bpy.types.Operator):
     bl_idname = "language.update"
     bl_label = "Update Language"
@@ -140,11 +142,8 @@ class LANGUAGE_OT_Update(bpy.types.Operator):
                         region.tag_redraw()
         return {'FINISHED'}
 
-# ...existing operator classes...
 
 # Operator class of FAQ button
-
-
 class FAQ_OT_Open(bpy.types.Operator):
     bl_idname = "wm.url_faq"
     bl_label = "Open URL FAQ"

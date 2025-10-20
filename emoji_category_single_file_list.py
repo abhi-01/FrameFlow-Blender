@@ -1,4 +1,5 @@
-"""List of all emoji categories that is required, it can be modified to add more meta data if required"""
+"""List of all emoji categories that is required, 
+it can be modified to add more meta data if required"""
 
 EMOJI_CATEGORIES = [
     {

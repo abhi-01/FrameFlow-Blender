@@ -1,9 +1,10 @@
-"""Unified emoji sub-panels - replaces all individual sub-panel files"""
-
 import bpy
 from .boiler_plate import BaseEmojiInsertOperator, BaseEmojiCategoryOperator, BaseEmojiPanel
 from .emoji_database_search import load_emoji_database
 from .emoji_category_single_file_list import EMOJI_CATEGORIES
+
+"""Unified emoji sub-panels - replaces all individual sub-panel files"""
+
 
 # Store generated classes
 LIST_OF_CLASSES = []
@@ -19,7 +20,7 @@ for config in EMOJI_CATEGORIES:
     # Load emoji data for this category
     emoji_data = load_emoji_database(category_name)
 
-    # 1. Create Category Operator (button that switches to this category)
+    # Create Category Operator (button that switches to this category)
     CategoryOperator = type(
         f"TEXT_OT_EMOJI_{category_key}",
         (BaseEmojiCategoryOperator,),
@@ -32,7 +33,7 @@ for config in EMOJI_CATEGORIES:
     )
     LIST_OF_CLASSES.append(CategoryOperator)
 
-    # 2. Create Insert Operator (inserts emoji into text editor)
+    # Create Insert Operator (inserts emoji into text editor)
     InsertOperator = type(
         f"TEXT_OT_INSERT_{category_key}",
         (BaseEmojiInsertOperator,),
@@ -43,7 +44,7 @@ for config in EMOJI_CATEGORIES:
     )
     LIST_OF_CLASSES.append(InsertOperator)
 
-    # 3. Create Panel (displays emojis in UI)
+    # Create Panel (displays emojis in UI)
     Panel = type(
         f"TEXT_PT_EMOJI_{category_key}_PANEL",
         (BaseEmojiPanel,),
@@ -56,9 +57,8 @@ for config in EMOJI_CATEGORIES:
     )
     LIST_OF_CLASSES.append(Panel)
 
+
 # Make all classes available for import
-
-
 def get_classes():
     """Return all dynamically generated classes for registration"""
     return LIST_OF_CLASSES
