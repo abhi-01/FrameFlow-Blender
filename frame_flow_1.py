@@ -196,6 +196,72 @@ class InsertFrameOperator(bpy.types.Operator):
         return {'FINISHED'}
 
 
+# def find_text_editor(context):
+#     """Return (area, text_space) for an existing TEXT_EDITOR in current window, or (None, None)."""
+#     for area in context.window.screen.areas:
+#         if area.type == 'TEXT_EDITOR':
+#             for space in area.spaces:
+#                 if space.type == 'TEXT_EDITOR':
+#                     return area, space
+#     return None, None
+
+
+# class OpenTextEditorOperator(bpy.types.Operator):
+#     # bl_idname = "frameflow.open_frame_text"
+#     bl_idname = "wm.open_text_editor"
+#     bl_label = "Open Frame Text"
+#     bl_options = {'REGISTER', 'UNDO'}
+
+#     def execute(self, context):
+#         # 1) Capture the active frame node from the *currently edited* tree (works inside groups)
+#         if context.area.type != 'NODE_EDITOR':
+#             self.report(
+#                 {'WARNING'}, "Run this from a Node Editor with a frame selected.")
+#             return {'CANCELLED'}
+
+#         tree = get_active_tree(context)
+#         if not tree:
+#             self.report({'WARNING'}, "No active node tree.")
+#             return {'CANCELLED'}
+
+#         node = getattr(tree.nodes, "active", None)
+#         if not node or node.bl_idname != "NodeFrame":
+#             self.report({'WARNING'}, "Selected node is not a frame.")
+#             return {'CANCELLED'}
+
+#         # 2) Ensure the frame has a Text datablock
+#         txt = node.text
+#         if not txt:
+#             name = f"{(node.label or 'FrameFlow').strip()}_FF"
+#             txt = bpy.data.texts.new(name=name)
+#             node.text = txt
+
+#         # 3) Find or create a Text Editor area and set its text to the frame's text
+#         text_area, text_space = find_text_editor(context)
+#         if text_area and text_space:
+#             # Use a context override so we don’t lose the node editor context prematurely
+#             with bpy.context.temp_override(window=context.window, area=text_area, region=text_area.regions[-1], space_data=text_space):
+#                 text_space.text = txt
+#         else:
+#             # Convert current area to TEXT_EDITOR *after* we captured the node
+#             area = context.area
+#             # Remember the region we’ll assign into after switching
+#             region = next(
+#                 (r for r in area.regions if r.type == 'WINDOW'), None)
+#             area.type = 'TEXT_EDITOR'
+#             text_space = next(
+#                 s for s in area.spaces if s.type == 'TEXT_EDITOR')
+#             # Now assign text
+#             if region:
+#                 with bpy.context.temp_override(window=context.window, area=area, region=region, space_data=text_space):
+#                     text_space.text = txt
+#             else:
+#                 text_space.text = txt
+
+#         self.report({'INFO'}, f"Opened text: {txt.name}")
+#         return {'FINISHED'}
+
+
 # Operator to open text editor in new window
 class OpenTextEditorOperator(bpy.types.Operator):
     bl_idname = "wm.open_text_editor"
@@ -203,6 +269,24 @@ class OpenTextEditorOperator(bpy.types.Operator):
     bl_description = "Open text editor in new window with data block linked to frame node"
 
     def execute(self, context):
+        area = context.area
+        region = context.region
+        space = context.space_data
+
+        if context.area.type != 'NODE_EDITOR':
+            self.report(
+                {'WARNING'}, "Run this from a Node Editor with a frame selected.")
+            return {'CANCELLED'}
+
+        tree = get_active_tree(context)
+        if not tree:
+            self.report({'WARNING'}, "No active node tree.")
+            return {'CANCELLED'}
+
+        node = getattr(tree.nodes, "active", None)
+        if not node or node.bl_idname != "NodeFrame":
+            self.report({'WARNING'}, "Selected node is not a frame.")
+            return {'CANCELLED'}
 
         # Store the original area type before creating new window
         original_area = context.area.type
@@ -246,25 +330,15 @@ class OpenTextEditorOperator(bpy.types.Operator):
 
         # Setting the text block as the active text in the editor, starts here.
         material = bpy.context.object.active_material
-        node_tree = material.node_tree
+        # node_tree = material.node_tree
+        # node_tree = node.
 
         # Giving error when all frames are deleted.
         # print("Inside open text editor operator, active node",
         #       node_tree.nodes.active.name)
 
-        active_frame = node_tree.nodes.active
-
-        # Debugging print statement
-        # print("active frame is ", active_frame)
-
-        # Check for active frame first
-        if not active_frame:
-            self.report({'WARNING'}, "No active frame selected")
-            return {'CANCELLED'}
-
-        if active_frame.type != 'FRAME':
-            self.report({'WARNING'}, "Selected node is not a frame")
-            return {'CANCELLED'}
+        # active_frame = node_tree
+        active_frame = node
 
         # Now handling existing text blocks, if text block exists, link it, else create new one
         if active_frame.text:
