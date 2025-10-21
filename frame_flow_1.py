@@ -43,11 +43,35 @@ class SimpleFramePanel(bpy.types.Panel):
                      text="Open Text Editor \U0001F5D2")
 
 
+# why the need for the helper function, as the addon worked well outside a node group, but did nt work as intended inside a node group.
+# The problem was that when the user is inside the node group and clicks "Create Frame", it was getting created outside the node group,
+# while the "Insert Frame" operator was working inside the node group but with no attached frame inside it.
+
+# The problem was because:
+# In Blender, when the user TAB into a node group, the currently edited tree is space_data.edit_tree (the group’s internal node tree),
+# while the top-level tree is space_data.node_tree. If the operators always write to node_tree, they’ll create frames outside the group, causing this behavior.
+# So the solution is to check if we are inside a node group (i.e., if edit_tree is not None), which this helper function does.
+
+# Helper function to get node tree in the node editor as well as inside the groups
+def get_active_tree(context):
+    space = getattr(context, "space_data", None)
+    if not space or space.type != 'NODE_EDITOR':
+        return None
+    # When you’re inside a node group, edit_tree is that group’s node tree.
+    return getattr(space, "edit_tree", None) or getattr(space, "node_tree", None)
+
+
 # Operator to add a frame node where the mouse cursor is.
 class AddFrameNodeOperator(bpy.types.Operator):
     bl_idname = "node.add_frame_node"
     bl_label = "Add Frame Node"
     bl_description = "Create a frame near the mouse cursor"  # <-- Tooltip text
+
+    # Commenting this poll method out as I am already performing the check inside the execute method.
+    # @classmethod
+    # def poll(cls, context):
+    #     space = getattr(context, "space_data", None)
+    #     return bool(space and space.type == 'NODE_EDITOR' and (space.edit_tree or space.node_tree))
 
     def execute(self, context):
         area = context.area
@@ -65,19 +89,30 @@ class AddFrameNodeOperator(bpy.types.Operator):
             return {'CANCELLED'}
 
         # Reference to the selected material's node tree
-        ntree = obj.active_material.node_tree
+        # No need , replaced by get_active_tree function
+        # ntree = obj.active_material.node_tree
 
-        # Compute view center in node space
+        # Performing to see if the user is inside a node group or not. And then getting the correct tree.
+        tree = get_active_tree(context)
+        if not tree:
+            return {'CANCELLED'}
+
+        # Based on where the active node is, create the frame node there. (i.e. inside a node group or outside in the node editor)
+        frame = tree.nodes.new("NodeFrame")
+
+        # # Compute view center in node space
         v2d = region.view2d
         # region_to_view gives node-space from region coords
         vx = (region.width) * 0.5
         vy = (region.height) * 0.5
         center_x, center_y = v2d.region_to_view(vx, vy)
 
-        # Create frame
-        frame = ntree.nodes.new('NodeFrame')
+        # # Create frame
+        # Replaced by the tree = get_active_tree(context) line above
+        # frame = ntree.nodes.new('NodeFrame')
         frame.width = 150
         frame.height = 150
+
         frame.location = (center_x - frame.width * 0.5,
                           center_y - frame.height * 0.5)
 
@@ -90,7 +125,11 @@ class AddFrameNodeOperator(bpy.types.Operator):
         frame.text = tb
         # Keep track of created text blocks, for future use of keeping back up feature.
         data_block_list.append(tb)
-        ntree.nodes.active = frame
+
+        # Set the newly created frame as the active node
+        # Replaced by tree.nodes.active
+        # ntree.nodes.active = frame
+        tree.nodes.active = frame
 
         return {'FINISHED'}
 
@@ -115,15 +154,17 @@ class InsertFrameOperator(bpy.types.Operator):
             self.report({'WARNING'}, "Select object with material")
             return {'CANCELLED'}
 
-        material = bpy.context.object.active_material
-        node_tree = material.node_tree
+        # Performing to see if the user is inside a node group or not. And then getting the correct tree.
+        tree = get_active_tree(context)
+
+        if not tree:
+            return {'CANCELLED'}
 
         # Check if user has selected a node (or nodes) , if yes then use that node's location and
         # size to place the frame node around it.
-
-        # active_node = node_tree.nodes.active
         check_node_bool = False
-        for node in node_tree.nodes:
+
+        for node in tree.nodes:
             if node.select:
                 active_node = node
                 check_node_bool = True
@@ -131,12 +172,15 @@ class InsertFrameOperator(bpy.types.Operator):
 
         # if active_node:
         if check_node_bool:
-            print("active node is ", active_node)
+            # # Debugging print statement
+            # print("active node is ", active_node)
 
             location_x = active_node.location[0] - (active_node.width + 10)
 
             location_y = active_node.location[1]
-            frame_node = node_tree.nodes.new(type='NodeFrame')
+
+            frame_node = tree.nodes.new(type='NodeFrame')
+
             frame_node.location = (location_x, location_y)
             frame_node.width = active_node.width + 5
             frame_node.height = active_node.height
@@ -210,7 +254,8 @@ class OpenTextEditorOperator(bpy.types.Operator):
 
         active_frame = node_tree.nodes.active
 
-        print("active frame is ", active_frame)
+        # Debugging print statement
+        # print("active frame is ", active_frame)
 
         # Check for active frame first
         if not active_frame:
