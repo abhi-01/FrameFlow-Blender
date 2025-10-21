@@ -7,3 +7,9 @@ __pycache__/
 # Linking file, will see what to do with it later
 mklink
 rmlink
+
+# Sub panel files
+sub_panels/
+
+# Ignore python files
+Help_Settings_Panel_old.py
