@@ -18,11 +18,11 @@
 ---
 
 ##  Installation
-
-1. Download the latest `.zip` file from,    
-[Gumroad](https://abhishek3d.gumroad.com/l/frameflow)
-2. or simply srag and drop from:  
-[Blender Official Extension's website](https://extensions.blender.org/approval-queue/frameflowblender/)  
+1. Get it inside Blender --> Go to Edit >> Prefrences >> Get Extensions >> Type “Frame Flow”, it will show “Frame Flow Beta”, now install !!
+2. or simply drag and drop from:  
+[Blender Official Extension's website](https://extensions.blender.org/add-ons/frameflowblender/)  
+3. Download the latest `.zip` file from,    
+[Gumroad](https://abhishek3d.gumroad.com/l/frameflow) 
 
 🧠 *Tip:* You can remove any previous FrameFlow version before installing a new one.
 
@@ -36,7 +36,7 @@ In Blender:
 ##  Usage
 Watch this demo video, its less than 5 minutes long, and covers all functionality of FrameFlow, that's how simple it is to use.
 
-[Demo On YouTube](https://www.youtube.com/watch?v=7pI79bUrJZg)
+[Demo On YouTube](https://youtu.be/Y5wNS_mS4HY)
 
 Or Follow these steps:
 1. Open a **Shader Node Editor** (Support for Geometry and Compositor will be updated soon!!)
