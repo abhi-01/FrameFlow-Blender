@@ -1,3 +1,6 @@
+# old by cld Editor_text_format.py
+
+
 import bpy
 
 
@@ -11,13 +14,13 @@ def generate_style_maps():
         **{chr(i): chr(0x1D7CE + (i - 0x30)) for i in range(0x30, 0x3A)},  # 0–9
     }
 
+    # The reason for the gap is that Unicode does not have a separate italic character for 'h'.
+    # It gets confused with the Planck constant symbol (ℎ, U+210E) and yields incorrect rendering for the
+    # alphabet 'h' in italic style..
     # Italic A–Z (contiguous)
     italic_upper = {chr(i): chr(0x1D434 + (i - 0x41))
                     for i in range(0x41, 0x5B)}
 
-    # The reason for the gap is that Unicode does not have a separate italic character for 'h'.
-    # It gets confused with the Planck constant symbol (ℎ, U+210E) and yields incorrect rendering for the
-    # alphabet 'h' in italic style..
     # Italic a–z (gap at h)
     italic_lower = {}
     italic_lower.update({chr(i): chr(0x1D44E + (i - 0x61))
@@ -51,49 +54,61 @@ def set_live_mode(context, mode):
     context.window_manager["unicode_text_style_mode"] = mode
 
 
+def is_operator_running(context):
+    """Check if the modal operator is actually running"""
+    wm = context.window_manager
+    return "unicode_text_style_running" in wm and wm["unicode_text_style_running"]
+
+
+def set_operator_running(context, running):
+    """Track whether the modal operator is running"""
+    context.window_manager["unicode_text_style_running"] = running
+
+
 # # # IMPORTANT: DO NOT DELETE THIS CODE BLOCK
 # # # Operator – Manual Apply, user selects text and click button.
 # # # Leaving it for now, in case needed in future.
 
-# # class TEXT_OT_style_unicode(bpy.types.Operator):
-# #     bl_idname = "text.style_unicode"
-# #     bl_label = "Stylize Text (Unicode)"
-# #     bl_options = {'REGISTER', 'UNDO'}
 
-# #     style: bpy.props.EnumProperty(
-# #         name="Style",
-# #         items=[
-# #             ('bold', "Bold", "Apply bold Unicode characters"),
-# #             ('italic', "Italic", "Apply italic Unicode characters"),
-# #         ],
-# #         default='bold',
-# #     )
+# class TEXT_OT_style_unicode(bpy.types.Operator):
+#     bl_idname = "text.style_unicode"
+#     bl_label = "Stylize Text (Unicode)"
+#     bl_options = {'REGISTER', 'UNDO'}
 
-# #     def execute(self, context):
-# #         text = context.space_data.text
-# #         if not text:
-# #             self.report({'WARNING'}, "No text open.")
-# #             return {'CANCELLED'}
+#     style: bpy.props.EnumProperty(
+#         name="Style",
+#         items=[
+#             ('bold', "Bold", "Apply bold Unicode characters"),
+#             ('italic', "Italic", "Apply italic Unicode characters"),
+#         ],
+#         default='bold',
+#     )
 
-# #         line = text.current_line
-# #         c1, c2 = sorted((text.current_character, text.select_end_character))
-# #         body = line.body
+#     def execute(self, context):
+#         text = context.space_data.text
+#         if not text:
+#             self.report({'WARNING'}, "No text open.")
+#             return {'CANCELLED'}
 
-# #         if c1 == c2:
-# #             self.report({'WARNING'}, "Select text first.")
-# #             return {'CANCELLED'}
+#         line = text.current_line
+#         c1, c2 = sorted((text.current_character, text.select_end_character))
+#         body = line.body
 
-# #         try:
-# #             selected = body[c1:c2]
-# #             styled = stylize_text(selected, self.style)
-# #             new_body = body[:c1] + styled + body[c2:]
-# #             line.body = new_body
-# #             text.current_character = c1 + len(styled)
-# #             text.select_end_character = text.current_character
-# #             return {'FINISHED'}
-# #         except Exception as e:
-# #             self.report({'ERROR'}, str(e))
-# #             return {'CANCELLED'}
+#         if c1 == c2:
+#             self.report({'WARNING'}, "Select text first.")
+#             return {'CANCELLED'}
+
+#         try:
+#             selected = body[c1:c2]
+#             styled = stylize_text(selected, self.style)
+#             new_body = body[:c1] + styled + body[c2:]
+#             line.body = new_body
+#             text.current_character = c1 + len(styled)
+#             text.select_end_character = text.current_character
+#             return {'FINISHED'}
+#         except Exception as e:
+#             self.report({'ERROR'}, str(e))
+#             return {'CANCELLED'}
 
 
 # Operator – Live Typing Mode
@@ -118,6 +133,13 @@ class TEXT_OT_live_style(bpy.types.Operator):
             if get_live_mode(context) != self.style:
                 self.cancel(context)
                 return {'CANCELLED'}
+
+            # IMPORTANT FIX : Whenever the users was accessing the text editor via the Blender's menu, the
+            # the text format option (either "Bold" or "Italic") would remain selected based on what was last active. While still turned on
+            # the button would not work unless I turned it off and turned it back on. It happened because of the context issue.
+            # : Check if we're still in a text editor context
+            if not context.space_data or context.space_data.type != 'TEXT_EDITOR':
+                return {'PASS_THROUGH'}
 
             txt = context.space_data.text
             if not txt:
@@ -182,10 +204,25 @@ class TEXT_OT_live_style(bpy.types.Operator):
         if self._timer:
             context.window_manager.event_timer_remove(self._timer)
             self._timer = None
+        # Clear the mode state when modal operator stops
+        set_live_mode(context, "none")
 
     def execute(self, context):
         wm = context.window_manager
         current_mode = get_live_mode(context)
+
+        # Fixing the error that popped up when the editor is accessed via the Blender's menu and not via the FrameFlow editor option.
+        # The error appeared in the console and did not affect the functionality, but it is good practice to get rid of it.,in case
+        # I am adding new features , it may cause conflict. better safe than sorry., plus its ugly to have this error pop up even for .5 seconds.
+        # Verify we're in a text editor with valid text.
+        if not context.space_data or context.space_data.type != 'TEXT_EDITOR':
+            self.report({'WARNING'}, "Must be in Text Editor")
+            return {'CANCELLED'}
+
+        txt = context.space_data.text
+        if not txt:
+            self.report({'WARNING'}, "No text file open")
+            return {'CANCELLED'}
 
         # FIX: cleanly stop previous live mode before switching
         if current_mode != "none" and current_mode != self.style:
@@ -202,14 +239,14 @@ class TEXT_OT_live_style(bpy.types.Operator):
             return {'CANCELLED'}
 
         set_live_mode(context, self.style)
-        txt = context.space_data.text
-        if txt:
-            self._last_len = len(txt.current_line.body)
-            try:
-                self._last_line_index = txt.lines[:].index(txt.current_line)
-            except:
-                self._last_line_index = -1
-            self._last_cursor_pos = txt.current_character
+
+        # Initialize tracking for current context
+        self._last_len = len(txt.current_line.body)
+        try:
+            self._last_line_index = txt.lines[:].index(txt.current_line)
+        except:
+            self._last_line_index = -1
+        self._last_cursor_pos = txt.current_character
 
         self._timer = wm.event_timer_add(0.1, window=context.window)
         wm.modal_handler_add(self)
@@ -229,8 +266,23 @@ class TEXT_PT_unicode_style(bpy.types.Panel):
         layout = self.layout
         wm = context.window_manager
         mode = get_live_mode(context)
+
+        # Check if we're in a valid text editor context
+        valid_context = (context.space_data and
+                         context.space_data.type == 'TEXT_EDITOR' and
+                         context.space_data.text is not None)
+
+        if not valid_context and mode != "none":
+            # Show warning if mode is set but context is invalid
+            layout.label(text="⚠ Switch to text editor", icon='ERROR')
+            box = layout.box()
+            box.label(text="Mode appears active but")
+            box.label(text="no text editor is open")
+
         layout.label(text="Click to select:")
         col = layout.column(align=True)
+        col.enabled = valid_context  # Disable buttons if not in valid context
+
         b = col.operator("text.live_style", text="🅱️ Bold Live",
                          depress=(mode == 'bold'))
         b.style = 'bold'

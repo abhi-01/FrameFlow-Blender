@@ -165,8 +165,29 @@ class TEXT_OT_emoji_search(bpy.types.Operator):
     )
 
     def execute(self, context):
-        if context.space_data.type == 'TEXT_EDITOR' and context.space_data.text:
-            context.space_data.text.write(self.emoji_enum)
+        # Verify we're in a valid text editor context
+        if not context.space_data or context.space_data.type != 'TEXT_EDITOR':
+            self.report({'WARNING'}, "Must be in Text Editor")
+            return {'CANCELLED'}
+
+        txt = context.space_data.text
+        if not txt:
+            self.report({'WARNING'}, "No text file open")
+            return {'CANCELLED'}
+
+        # Get current line and cursor position
+        line = txt.current_line
+        cursor_pos = txt.current_character
+
+        # Reconstruct the line with emoji inserted at cursor position
+        new_body = line.body[:cursor_pos] + \
+            self.emoji_enum + line.body[cursor_pos:]
+        line.body = new_body
+
+        # Move cursor after the inserted emoji
+        txt.current_character = cursor_pos + len(self.emoji_enum)
+        txt.select_end_character = txt.current_character
+
         return {'FINISHED'}
 
     def invoke(self, context, event):
@@ -188,8 +209,29 @@ class TEXT_OT_insert_emoji(bpy.types.Operator):
         return properties.tooltip if properties.tooltip else f"Insert {properties.emoji}"
 
     def execute(self, context):
-        if context.space_data.type == 'TEXT_EDITOR' and context.space_data.text:
-            context.space_data.text.write(self.emoji)
+        # CRITICAL FIX: Verify we're in a valid text editor context
+        if not context.space_data or context.space_data.type != 'TEXT_EDITOR':
+            self.report({'WARNING'}, "Must be in Text Editor")
+            return {'CANCELLED'}
+
+        txt = context.space_data.text
+        if not txt:
+            self.report({'WARNING'}, "No text file open")
+            return {'CANCELLED'}
+
+        # CRITICAL FIX: Instead of using txt.write() which inserts text,
+        # reconstruct the line with emoji at the cursor position
+        line = txt.current_line
+        cursor_pos = txt.current_character
+
+        # Build new line: before cursor + emoji + after cursor
+        new_body = line.body[:cursor_pos] + self.emoji + line.body[cursor_pos:]
+        line.body = new_body
+
+        # Move cursor after the inserted emoji
+        txt.current_character = cursor_pos + len(self.emoji)
+        txt.select_end_character = txt.current_character
+
         return {'FINISHED'}
 
 

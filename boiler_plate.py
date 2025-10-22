@@ -6,6 +6,7 @@ import bpy
 # All the classes are pretty self explanatory.
 
 # Most important class, inserts the emoji into the text editor
+# MAKING CHANGES CAN BE RISKY.
 class BaseEmojiInsertOperator(bpy.types.Operator):
     """Base class for emoji insert operators"""
 
@@ -26,8 +27,32 @@ class BaseEmojiInsertOperator(bpy.types.Operator):
         return properties.tooltip if properties.tooltip else "Insert emoji into text editor"
 
     def execute(self, context):
-        if context.space_data.type == 'TEXT_EDITOR' and context.space_data.text:
-            context.space_data.text.write(self.emoji)
+        # IMPORTANT FIX: Verify we're in a valid text editor context
+        # WHY --> There was an issue with emojis insertion. See, the following codes/comments.
+        if not context.space_data or context.space_data.type != 'TEXT_EDITOR':
+            self.report({'WARNING'}, "Must be in Text Editor")
+            return {'CANCELLED'}
+
+        txt = context.space_data.text
+        if not txt:
+            self.report({'WARNING'}, "No text file open")
+            return {'CANCELLED'}
+
+        # IMPORTANT FIX: Now after fixing the issue with 'bold' and 'italic' from appearing to a new line
+        # instead of the cursor position, I am reusing the same logic here for emoji insertion.
+        # Instead of using txt.write() which inserts text and pushes to new line,
+        # reconstruct the line with emoji at the cursor position
+        line = txt.current_line
+        cursor_pos = txt.current_character
+
+        # Build new line: before cursor + emoji + after cursor
+        new_body = line.body[:cursor_pos] + self.emoji + line.body[cursor_pos:]
+        line.body = new_body
+
+        # Move cursor after the inserted emoji
+        txt.current_character = cursor_pos + len(self.emoji)
+        txt.select_end_character = txt.current_character
+
         return {'FINISHED'}
 
 
