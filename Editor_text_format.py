@@ -1,6 +1,7 @@
 import bpy
 
 
+# Unicode Character Mapping
 # This functions maps the english alphabet and numbers to their bold and italic Unicode equivalents.
 def generate_style_maps():
     # Bold A–Z, a–z, 0–9
@@ -50,49 +51,49 @@ def set_live_mode(context, mode):
     context.window_manager["unicode_text_style_mode"] = mode
 
 
-# # IMPORTANT: DO NOT DELETE THIS CODE BLOCK
-# # Operator – Manual Apply, user selects text and click button.
-# # Leaving it for now, in case needed in future.
+# # # IMPORTANT: DO NOT DELETE THIS CODE BLOCK
+# # # Operator – Manual Apply, user selects text and click button.
+# # # Leaving it for now, in case needed in future.
 
-# class TEXT_OT_style_unicode(bpy.types.Operator):
-#     bl_idname = "text.style_unicode"
-#     bl_label = "Stylize Text (Unicode)"
-#     bl_options = {'REGISTER', 'UNDO'}
+# # class TEXT_OT_style_unicode(bpy.types.Operator):
+# #     bl_idname = "text.style_unicode"
+# #     bl_label = "Stylize Text (Unicode)"
+# #     bl_options = {'REGISTER', 'UNDO'}
 
-#     style: bpy.props.EnumProperty(
-#         name="Style",
-#         items=[
-#             ('bold', "Bold", "Apply bold Unicode characters"),
-#             ('italic', "Italic", "Apply italic Unicode characters"),
-#         ],
-#         default='bold',
-#     )
+# #     style: bpy.props.EnumProperty(
+# #         name="Style",
+# #         items=[
+# #             ('bold', "Bold", "Apply bold Unicode characters"),
+# #             ('italic', "Italic", "Apply italic Unicode characters"),
+# #         ],
+# #         default='bold',
+# #     )
 
-#     def execute(self, context):
-#         text = context.space_data.text
-#         if not text:
-#             self.report({'WARNING'}, "No text open.")
-#             return {'CANCELLED'}
+# #     def execute(self, context):
+# #         text = context.space_data.text
+# #         if not text:
+# #             self.report({'WARNING'}, "No text open.")
+# #             return {'CANCELLED'}
 
-#         line = text.current_line
-#         c1, c2 = sorted((text.current_character, text.select_end_character))
-#         body = line.body
+# #         line = text.current_line
+# #         c1, c2 = sorted((text.current_character, text.select_end_character))
+# #         body = line.body
 
-#         if c1 == c2:
-#             self.report({'WARNING'}, "Select text first.")
-#             return {'CANCELLED'}
+# #         if c1 == c2:
+# #             self.report({'WARNING'}, "Select text first.")
+# #             return {'CANCELLED'}
 
-#         try:
-#             selected = body[c1:c2]
-#             styled = stylize_text(selected, self.style)
-#             new_body = body[:c1] + styled + body[c2:]
-#             line.body = new_body
-#             text.current_character = c1 + len(styled)
-#             text.select_end_character = text.current_character
-#             return {'FINISHED'}
-#         except Exception as e:
-#             self.report({'ERROR'}, str(e))
-#             return {'CANCELLED'}
+# #         try:
+# #             selected = body[c1:c2]
+# #             styled = stylize_text(selected, self.style)
+# #             new_body = body[:c1] + styled + body[c2:]
+# #             line.body = new_body
+# #             text.current_character = c1 + len(styled)
+# #             text.select_end_character = text.current_character
+# #             return {'FINISHED'}
+# #         except Exception as e:
+# #             self.report({'ERROR'}, str(e))
+# #             return {'CANCELLED'}
 
 
 # Operator – Live Typing Mode
@@ -109,20 +110,14 @@ class TEXT_OT_live_style(bpy.types.Operator):
 
     _timer = None
     _last_len = 0
+    _last_line_index = -1  # NEW: Track which line we're on
+    _last_cursor_pos = 0    # NEW: Track cursor position
 
     def modal(self, context, event):
-
         if event.type == 'TIMER':
             if get_live_mode(context) != self.style:
-                # Safely cancel if cancel() exists
-                cancel_fn = getattr(self, "cancel", None)
-                if callable(cancel_fn):
-                    cancel_fn(context)
+                self.cancel(context)
                 return {'CANCELLED'}
-            if event.type == 'TIMER':
-                if get_live_mode(context) != self.style:
-                    self.cancel(context)
-                    return {'CANCELLED'}
 
             txt = context.space_data.text
             if not txt:
@@ -131,22 +126,62 @@ class TEXT_OT_live_style(bpy.types.Operator):
             line = txt.current_line
             body = line.body
 
-            # Detect new text added since last check
-            if len(body) > self._last_len:
-                diff = body[self._last_len:]
-                styled = stylize_text(diff, self.style)
+            # Get current line index
+            try:
+                current_line_index = txt.lines[:].index(line)
+            except:
+                current_line_index = -1
 
-                # Safely replace only the new part using Blender API
-                try:
-                    txt.current_character = self._last_len
-                    txt.write(styled)
-                    self._last_len = len(line.body)
-                except Exception:
-                    pass
-            else:
+            current_cursor_pos = txt.current_character
+
+            # IMPORTANT FIX: This was creating issues whenever the user switched lines, it would keep printing same text with each click..
+            # Reset tracking when user changes lines or moves cursor backward
+            if (current_line_index != self._last_line_index or
+                    current_cursor_pos < self._last_cursor_pos):
                 self._last_len = len(body)
+                self._last_line_index = current_line_index
+                self._last_cursor_pos = current_cursor_pos
+                return {'PASS_THROUGH'}
+
+            # Detect new text added since last check (only at cursor position)
+            if len(body) > self._last_len and current_cursor_pos > self._last_cursor_pos:
+                # Calculate how many new characters were added
+                new_chars_count = current_cursor_pos - self._last_cursor_pos
+
+                if new_chars_count > 0:
+                    # Get only the newly typed characters
+                    start_pos = self._last_cursor_pos
+                    end_pos = current_cursor_pos
+                    new_text = body[start_pos:end_pos]
+
+                    styled = stylize_text(new_text, self.style)
+
+                    # Replace only the new text by reconstructing the line
+                    try:
+                        # Build new line: before + styled + after
+                        new_body = body[:start_pos] + styled + body[end_pos:]
+                        line.body = new_body
+
+                        # Position cursor after the styled text
+                        txt.current_character = start_pos + len(styled)
+                        txt.select_end_character = txt.current_character
+
+                        # Update tracking
+                        self._last_len = len(new_body)
+                        self._last_cursor_pos = txt.current_character
+                    except Exception:
+                        pass
+            else:
+                # Just update tracking without modification
+                self._last_len = len(body)
+                self._last_cursor_pos = current_cursor_pos
 
         return {'PASS_THROUGH'}
+
+    def cancel(self, context):
+        if self._timer:
+            context.window_manager.event_timer_remove(self._timer)
+            self._timer = None
 
     def execute(self, context):
         wm = context.window_manager
@@ -154,15 +189,13 @@ class TEXT_OT_live_style(bpy.types.Operator):
 
         # FIX: cleanly stop previous live mode before switching
         if current_mode != "none" and current_mode != self.style:
-            # Cancel any existing operator and reset mode
             set_live_mode(context, "none")
             for window in wm.windows:
                 for area in window.screen.areas:
                     if area.type == 'TEXT_EDITOR':
-                        # Just refresh the UI to avoid visual lag
                         area.tag_redraw()
 
-        # Normal toggle logic, lets user turn off live mode by clicking again.
+        # Normal toggle logic
         if current_mode == self.style:
             set_live_mode(context, "none")
             self.report({'INFO'}, f"{self.style.title()} mode OFF")
@@ -172,6 +205,11 @@ class TEXT_OT_live_style(bpy.types.Operator):
         txt = context.space_data.text
         if txt:
             self._last_len = len(txt.current_line.body)
+            try:
+                self._last_line_index = txt.lines[:].index(txt.current_line)
+            except:
+                self._last_line_index = -1
+            self._last_cursor_pos = txt.current_character
 
         self._timer = wm.event_timer_add(0.1, window=context.window)
         wm.modal_handler_add(self)
@@ -201,4 +239,4 @@ class TEXT_PT_unicode_style(bpy.types.Panel):
         i.style = 'italic'
 
 
-classes = (TEXT_OT_live_style, TEXT_PT_unicode_style)  # TEXT_OT_style_unicode
+classes = (TEXT_OT_live_style, TEXT_PT_unicode_style)
